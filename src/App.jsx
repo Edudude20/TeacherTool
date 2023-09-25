@@ -1,7 +1,31 @@
-//import { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 import "./App.css";
 
+const Input = ({ defaultValue, id, setInput, label}) => {
+  const handleChange = (event) => {
+    //event.preventDefault(); Tarvitaanko?
+    //estää lomakkeen lähetyksen oletusarvoisen toiminnan, joka aiheuttaisi mm. sivun uudelleenlatautumisen
+    setInput(event.target.value);
+  }
+  return (
+    <div>
+      <label>{label}: </label>
+      <input
+        type="text"
+        name="firstName"
+        onChange={handleChange}
+        value={defaultValue}
+        id= {id}
+      />
+    </div>
+  );
+}
+
 function App() {
+  const [title, setTitle] = useState('title default');
+  const [description, setDescription] = useState('description default');
+
   return (
     <>
       <header>
@@ -14,6 +38,7 @@ function App() {
           Please write the title of the task. This will show for the students as
           they select their task from the task machine so make it clear.
         </p>
+        <Input defaultValue={title} id={'title'} setInput={setTitle} label={'Title'}></Input>
       </div>
       <div>
         <h2>2. Slide</h2>
@@ -22,6 +47,7 @@ function App() {
           show as slide (similarly to PowerPoint) for the students as they open
           the task.
         </p>
+        <Input defaultValue={description} id={'description'} setInput={setDescription} label={'Description'}></Input>
       </div>
       <div>
         <h2>3. Learning material (optional)</h2>

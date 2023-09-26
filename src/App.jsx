@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import TextInput from "./components/TextInput";
+import optionService from "./services/options";
 
 const Description = () => {
   return (
@@ -11,21 +12,80 @@ const Description = () => {
         show as slide (similarly to PowerPoint) for the students as they open
         the task.
       </p>
-      <textarea id="title" rows={4} cols={50} defaultValue={'description default'}></textarea>
+      <textarea
+        id="title"
+        rows={4}
+        cols={50}
+        defaultValue={"description default"}
+      ></textarea>
       <button>+ add new description slide</button>
     </div>
   );
 };
 
 function App() {
-  const [title, setTitle] = useState("title default");
-  const [description, setDescription] = useState("description default");
+  //#region variables
+  // const [title, setTitle] = useState("title default");
+  // const [description, setDescription] = useState("description default");
+
+  const maxOptions = 10;
+  const [options, setOptions] = useState([]);
+
+  //#endregion
+
+  //#region tapahtumankäsittelijät
+
+  useEffect(() => {
+    //get all inital options that are in the database, which should be none
+    console.log("get all effect");
+    optionService
+      .getAll()
+      .then((initialOptions) => {
+        console.log(initialOptions);
+        setOptions(initialOptions);
+      })
+      .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected:
+  }, []); //Will only run after the initial render (expect once in development)
+
+  const addOption = (event) => {
+    //event.preventDefault(); //estää lomakkeen FORM lähetyksen oletusarvoisen toiminnan, joka aiheuttaisi mm. sivun uudelleenlatautumisen TODO:käännä englanniksi
+    console.log("Add option button clicked", event.target);
+
+    const optionObject = {
+      title: "testi",
+    };
+
+    optionService
+      .create(optionObject)
+      .then((returnedOption) => {
+        console.log(returnedOption);
+        setOptions(options.concat(returnedOption));
+      })
+      .catch(console.log("create option service failed"));
+  };
+
+  const removeOption = (optionID) => {
+    if (window.confirm(`delete option ${optionID}`)) {
+      optionService
+        .remove(optionID)
+        .then(() => {
+          console.log("remove promise fulfilled");
+          optionService.getAll().then(initialOptions => {
+            console.log(" getAll promise fulfilled, request data:", initialOptions);
+            setOptions(initialOptions);
+
+          })
+        })
+        .catch((error) => console.log("remove service failed", error));
+    }
+  };
+  //#endregion
 
   //TODO: handleSubmit
 
   return (
     <>
-      <header>
+      {/* <header>
         <h1>AIIS CLP (Collaborative learning platform)</h1>
         <div className="dropdown-menu">
           <button className="dropdown-menu-button">
@@ -72,7 +132,7 @@ function App() {
           id="learning-material"
           accept=".gif"
         />
-      </div>
+      </div> */}
       <div>
         <h2>4. Task settings</h2>
         <p>
@@ -88,11 +148,18 @@ function App() {
           </p>
           <p>Options x/10</p>
           <ol>
-            <li>Option 1</li>
-            <li>Option 2</li>
+            {/* Create a list item from every object in the array */}
+            {options.map((option) => (
+              <li key={option.id}>
+                {option.title}
+                <button onClick={() => removeOption(option.id)}>remove</button>
+              </li>
+            ))}
           </ol>
-          <button>add option +</button>
-          <p>Options x/10</p>
+          <button onClick={addOption}>add option +</button>
+          <p>
+            Options {options.length}/{maxOptions}
+          </p>
         </div>
       </div>
       <button>Submit/Continue/Preview</button>

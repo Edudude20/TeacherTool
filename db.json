@@ -1,9 +1,8 @@
 {
-  "posts": [
+  "options": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "title": "testi",
+      "id": 1
     }
   ],
   "comments": [

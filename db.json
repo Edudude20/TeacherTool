@@ -1,18 +1,26 @@
 {
+  "tasks": [
+    {
+      "taskId": 1,
+      "title": "some title"
+    }
+  ],
   "options": [
     {
       "title": "testi",
       "id": 1
-    }
-  ],
-  "descriptions": [
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "title": "testi",
+      "id": 2
+    },
+    {
+      "title": "testi",
+      "id": 3
+    },
+    {
+      "title": "testi",
+      "id": 4
     }
-  ],
-  "title": {
-    "body": "some text"
-  }
+  ]
 }

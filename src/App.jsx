@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import TextInput from "./components/TextInput";
 import taskService from "./services/task";
+import axios from "axios";
 
 const Description = () => {
   return (
@@ -25,11 +26,15 @@ const Description = () => {
 
 function App() {
   //#region variables
-  // const [title, setTitle] = useState("title default");
-  // const [description, setDescription] = useState("description default");
-
+  const [title, setTitle] = useState("title default");
+  //const [description, setDescription] = useState("description default");
   const maxOptions = 10;
   const [options, setOptions] = useState([]);
+
+  const [task, setTask] = useState({
+    title: title,
+    options: options,
+  });
 
   //#endregion
 
@@ -38,11 +43,14 @@ function App() {
   useEffect(() => {
     //get all inital task data that are in the database, which should be none by default
     console.log("get all effect");
+
+    //get all the data, then get the options object and set the options useState with setOptions
     taskService
-      .getAll() //get all the data, then get the options object and set the options useState with setOptions
-      .then((initialTask) => {
-        console.log(initialTask);
-        setOptions(initialTask);
+      .getAllOptions() //returns only the response.data
+      .then((returnedTask) => {
+        console.log(returnedTask);
+        //setTask(returnedTask);
+        setOptions(returnedTask);
       })
       .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected:
   }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
@@ -56,7 +64,7 @@ function App() {
     };
 
     taskService
-      .create(optionObject)
+      .createOption(optionObject)
       .then((returnedOption) => {
         console.log(returnedOption);
         setOptions(options.concat(returnedOption));
@@ -66,15 +74,35 @@ function App() {
 
   const removeOption = (optionID) => {
     if (window.confirm(`delete option ${optionID}`)) {
+
+      axios.get(`http://localhost:3001/tasks/1/options/${optionID}`).then(response => console.log(response.data));
+      // axios.delete(`http://localhost:3001/tasks/1/options/${optionID}`).then(response => {
+      //   console.log("promise fulfilled, request data:", response);
+      //   console.log('Deleted post with ID', optionID);
+      // }).catch(error => {
+      //   if (error.response) {
+      //     console.log(error.response.data);
+      //     console.log(error.response.status);
+      //     console.log(error.response.headers);
+      //   } else if (error.request) {
+      //     console.log(error.request);
+      //   } else {
+      //     console.log('Error', error.message);
+      //   }
+      //   console.log(error.config);
+      // });
+
       taskService
-        .remove(optionID)
+        .removeOption(optionID)
         .then(() => {
           console.log("remove promise fulfilled");
-          taskService.getAll().then(initialOptions => {
-            console.log(" getAll promise fulfilled, request data:", initialOptions);
+          taskService.getAllOptions().then((initialOptions) => {
+            console.log(
+              " getAll promise fulfilled, request data:",
+              initialOptions
+            );
             setOptions(initialOptions);
-
-          })
+          });
         })
         .catch((error) => console.log("remove service failed", error));
     }

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import TextInput from "./components/TextInput";
-import optionService from "./services/options";
+import taskService from "./services/task";
 
 const Description = () => {
   return (
@@ -36,16 +36,16 @@ function App() {
   //#region tapahtumankäsittelijät
 
   useEffect(() => {
-    //get all inital options that are in the database, which should be none
+    //get all inital task data that are in the database, which should be none by default
     console.log("get all effect");
-    optionService
-      .getAll()
-      .then((initialOptions) => {
-        console.log(initialOptions);
-        setOptions(initialOptions);
+    taskService
+      .getAll() //get all the data, then get the options object and set the options useState with setOptions
+      .then((initialTask) => {
+        console.log(initialTask);
+        setOptions(initialTask);
       })
       .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected:
-  }, []); //Will only run after the initial render (expect once in development)
+  }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
 
   const addOption = (event) => {
     //event.preventDefault(); //estää lomakkeen FORM lähetyksen oletusarvoisen toiminnan, joka aiheuttaisi mm. sivun uudelleenlatautumisen TODO:käännä englanniksi
@@ -55,22 +55,22 @@ function App() {
       title: "testi",
     };
 
-    optionService
+    taskService
       .create(optionObject)
       .then((returnedOption) => {
         console.log(returnedOption);
         setOptions(options.concat(returnedOption));
       })
-      .catch(console.log("create option service failed"));
+      .catch((error) => console.log("create option service failed", error));
   };
 
   const removeOption = (optionID) => {
     if (window.confirm(`delete option ${optionID}`)) {
-      optionService
+      taskService
         .remove(optionID)
         .then(() => {
           console.log("remove promise fulfilled");
-          optionService.getAll().then(initialOptions => {
+          taskService.getAll().then(initialOptions => {
             console.log(" getAll promise fulfilled, request data:", initialOptions);
             setOptions(initialOptions);
 

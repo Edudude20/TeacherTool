@@ -29,7 +29,7 @@ const Option = (props) => {
   return (
     <div>
       <p>#number</p>
-
+      <input type="text" />
     </div>
   )
 }
@@ -43,7 +43,7 @@ function App() {
     title: <Option></Option>,
     id: 1
   };
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState([optionObject]);
 
   //#endregion
 
@@ -54,18 +54,19 @@ function App() {
     console.log("get all effect");
 
     //get all the data, then get the options object and set the options useState with setOptions
-    taskService
-      .getAllOptions() //returns only the response.data
-      .then((returnedTask) => {
-        console.log(returnedTask);
-        if (Array.isArray(returnedTask) && returnedTask.length) {
-          setOptions(returnedTask);
-        }else{
-          console.log("Array is not either an array or is empty, create empty default option");
-          setOptions(options.concat(optionObject));
-        }
-      })
-      .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected
+    //TODO: ota pois, kun aiot tehdä backendiä
+  //   taskService
+  //     .getAllOptions() //returns only the response.data
+  //     .then((returnedTask) => {
+  //       console.log(returnedTask);
+  //       if (Array.isArray(returnedTask) && returnedTask.length) {
+  //         setOptions(returnedTask);
+  //       }else{
+  //         console.log("Array is not either an array or is empty, create empty default option");
+  //         setOptions(options.concat(optionObject));
+  //       }
+  //     })
+  //     .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected
   }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
 
   const addOption = (event) => {

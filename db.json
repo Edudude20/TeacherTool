@@ -5,22 +5,5 @@
       "title": "some title"
     }
   ],
-  "options": [
-    {
-      "title": "testi",
-      "id": 1
-    },
-    {
-      "title": "testi",
-      "id": 2
-    },
-    {
-      "title": "testi",
-      "id": 3
-    },
-    {
-      "title": "testi",
-      "id": 4
-    }
-  ]
+  "options": []
 }

@@ -24,17 +24,26 @@ const Description = () => {
   );
 };
 
+const Option = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>#number</p>
+
+    </div>
+  )
+}
+
 function App() {
   //#region variables
   const [title, setTitle] = useState("title default");
   //const [description, setDescription] = useState("description default");
   const maxOptions = 10;
+  const optionObject = {
+    title: <Option></Option>,
+    id: 1
+  };
   const [options, setOptions] = useState([]);
-
-  const [task, setTask] = useState({
-    title: title,
-    options: options,
-  });
 
   //#endregion
 
@@ -49,19 +58,21 @@ function App() {
       .getAllOptions() //returns only the response.data
       .then((returnedTask) => {
         console.log(returnedTask);
-        //setTask(returnedTask);
-        setOptions(returnedTask);
+        if (Array.isArray(returnedTask) && returnedTask.length) {
+          setOptions(returnedTask);
+        }else{
+          console.log("Array is not either an array or is empty, create empty default option");
+          setOptions(options.concat(optionObject));
+        }
       })
-      .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected:
+      .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected
   }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
 
   const addOption = (event) => {
     //event.preventDefault(); //estää lomakkeen FORM lähetyksen oletusarvoisen toiminnan, joka aiheuttaisi mm. sivun uudelleenlatautumisen TODO:käännä englanniksi
     console.log("Add option button clicked", event.target);
 
-    const optionObject = {
-      title: "testi",
-    };
+
 
     taskService
       .createOption(optionObject)
@@ -74,8 +85,9 @@ function App() {
 
   const removeOption = (optionID) => {
     if (window.confirm(`delete option ${optionID}`)) {
-
-      axios.get(`http://localhost:3001/tasks/1/options/${optionID}`).then(response => console.log(response.data));
+      axios
+        .get(`http://localhost:3001/tasks/1/options/${optionID}`)
+        .then((response) => console.log(response.data));
       // axios.delete(`http://localhost:3001/tasks/1/options/${optionID}`).then(response => {
       //   console.log("promise fulfilled, request data:", response);
       //   console.log('Deleted post with ID', optionID);

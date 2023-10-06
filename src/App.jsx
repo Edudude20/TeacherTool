@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import "./App.css";
 import TextInput from "./components/TextInput";
@@ -26,10 +25,11 @@ const Description = () => {
 /**
  * Component to map the list of options
  * @param {array} options Array of options of the Match-the-Columns
- * @param {method} removeOption
+ * @param {function} removeOption
  * @returns Component for the list of options
  */
 const Options = ({ options, removeOption }) => {
+
   const maxOptions = 10; //TODO:add maximum limit
   return (
     <div>

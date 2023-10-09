@@ -2,79 +2,13 @@ import "./App.css";
 import TextInput from "./components/TextInput";
 import taskService from "./services/task";
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import Description from './components/Description'
+import Options from "./components/Options";
 
-
-const Description = () => {
-  return (
-    <div>
-      <p>
-        Please write the description of the task for the students. These will
-        show as slide (similarly to PowerPoint) for the students as they open
-        the task.
-      </p>
-      <textarea
-        id="title"
-        rows={4}
-        cols={50}
-        defaultValue={"description default"}
-      ></textarea>
-      <button>+ add new description slide</button>
-    </div>
-  );
-};
-
-/**
- * Component to map the list of options
- * @param {array} options Array of options of the Match-the-Columns
- * @param {function} removeOption
- * @returns Component for the list of options
- */
-const Options = ({ options, removeOption }) => {
-
-  const maxOptions = 10; //TODO:add maximum limit
-  return (
-    <div>
-      <ol>
-        {/* Create a list item from every object in the array */}
-        {options.map((option, index) => (
-          <li key={option.id}>
-            {option.name}
-            <OptionForm
-              removeOption={() => removeOption(option, index)}
-            ></OptionForm>
-          </li>
-        ))}
-      </ol>
-    </div>
-  );
-};
-
-Options.propTypes = {
-  options: PropTypes.array,
-  maxOptions: PropTypes.number,
-  removeOption: PropTypes.func
-}
-
-/**
- * 
- * @param {method} removeOption method to remove an option
- * @returns The list item option for Match-the-columns
- */
-const OptionForm = ({removeOption}) => {
-  return (
-    <div>
-      <label>
-        <input type="text" defaultValue={"default draggable value"} />
-      </label>
-      <button onClick={removeOption}>remove</button>
-    </div>
-  );
-};
 
 function App() {
   //#region variables
-  const [title, setTitle] = useState("title default");
+  //const [title, setTitle] = useState("title default");
   //const [description, setDescription] = useState("description default");
   const maxOptions = 10;
   const [options, setOptions] = useState([]);

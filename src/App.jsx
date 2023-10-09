@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
 import "./App.css";
 import TextInput from "./components/TextInput";
 import taskService from "./services/task";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 
 const Description = () => {
   return (
@@ -47,6 +49,12 @@ const Options = ({ options, removeOption }) => {
     </div>
   );
 };
+
+Options.propTypes = {
+  options: PropTypes.array,
+  maxOptions: PropTypes.number,
+  removeOption: PropTypes.func
+}
 
 /**
  * 

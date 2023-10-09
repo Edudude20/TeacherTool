@@ -1,7 +1,7 @@
 import "./App.css";
 import TextInput from "./components/TextInput";
 import taskService from "./services/task";
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Description from './components/Description'
 import Options from "./components/Options";
 

@@ -1,10 +1,9 @@
 import "./App.css";
 import TextInput from "./components/TextInput";
 import taskService from "./services/task";
-import { useState, useEffect } from 'react';
-import Description from './components/Description'
+import { useState, useEffect } from "react";
+import Description from "./components/Description";
 import Options from "./components/Options";
-
 
 function App() {
   //#region variables
@@ -12,6 +11,7 @@ function App() {
   //const [description, setDescription] = useState("description default");
   const maxOptions = 10;
   const [options, setOptions] = useState([]);
+  const [inputs, setInputs] = useState({});
 
   //#endregion
 
@@ -19,10 +19,10 @@ function App() {
 
   useEffect(() => {
     //get all inital task data that are in the database, which should be none by default
-    console.log("get all effect");
+    //console.log("get all effect");
 
     //get all the data, then get the options object and set the options useState with setOptions
-    //TODO: ota pois, kun aiot tehdä backendiä
+    //TODO: ota kommentit pois, kun aiot tehdä backendiä
     //   taskService
     //     .getAllOptions() //returns only the response.data
     //     .then((returnedTask) => {
@@ -38,7 +38,7 @@ function App() {
   }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
 
   const addOption = (event) => {
-    //event.preventDefault(); //estää lomakkeen FORM lähetyksen oletusarvoisen toiminnan, joka aiheuttaisi mm. sivun uudelleenlatautumisen TODO:käännä englanniksi
+    event.preventDefault(); //estää lomakkeen FORM lähetyksen oletusarvoisen toiminnan, joka aiheuttaisi mm. sivun uudelleenlatautumisen TODO:käännä englanniksi
     console.log("Add option button clicked", event.target);
 
     const optionObject = {
@@ -77,32 +77,58 @@ function App() {
   };
   //#endregion
 
+  const handleChange = (event) => {
+    console.log(event.target);
+    const name = event.target.name;
+    console.log(event.target.name);
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value}))
+  }
+
   //TODO: handleSubmit
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(`The data you submitted: `, inputs);
+  };
 
   return (
     <>
-      <div>
-        <h2>4. Task settings</h2>
-        <p>
-          This is the minigame that the students will play to finish the task.
-        </p>
-        <p>Please select a task type using the dropdown menu below.</p>
-        <button>Select task type (dropdown)</button>
-        <div>
+      <header></header>
+      <p>
+        Required fields are followed by <span aria-label="required">*</span>
+      </p>
+      <form onSubmit={handleSubmit}>
+        <section>
+          <h2>
+            4. Task settings <span aria-label="required">*</span>
+          </h2>
           <p>
-            Task description: drag-and-drop the answer options to the open slots
-            of their respective matches. Leave column entry (box on the right
-            side) empty if this is a false match. Options are draggable.
+            This is the minigame that the students will play to finish the task.
           </p>
-          <p>Options x/10</p>
-          <Options options={options} removeOption={removeOption}></Options>
-          <button onClick={addOption}>add option +</button>
-          <p>
-            Options {options.length}/{maxOptions}
-          </p>
-        </div>
-      </div>
+          <p>Please select a task type using the dropdown menu below.</p>
+          <button>Select task type (dropdown)</button>
+          <div>
+            <p>
+              Task description: drag-and-drop the answer options to the open
+              slots of their respective matches. Leave column entry (box on the
+              right side) empty if this is a false match. Options are draggable.
+            </p>
+            <fieldset>
+              <legend>
+                Options {options.length}/{maxOptions}
+              </legend>
+              <Options options={options} removeOption={removeOption} handleChange={handleChange}></Options>
+              <button onClick={addOption}>add option +</button>
+              <p>
+                Options {options.length}/{maxOptions}
+              </p>
+            </fieldset>
+          </div>
+        </section>
+      </form>
       <button>Submit/Continue/Preview</button>
+
+      <footer></footer>
     </>
   );
 }

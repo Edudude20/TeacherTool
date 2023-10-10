@@ -21,6 +21,11 @@ Acronyms by pi.ai:
  Thesis
  Turku University of Applied Sciences
 
+ ## Links
+ + Forms: https://developer.mozilla.org/en-US/docs/Learn/Forms/How_to_structure_a_web_form
+ + HTML Layout: https://www.w3schools.com/html/html_layout.asp
+ + HTML section: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section 
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

@@ -1,8 +1,8 @@
 import "./App.css";
-import TextInput from "./components/TextInput";
-import taskService from "./services/task";
+//import TextInput from "./components/TextInput";
+//import taskService from "./services/task";
 import { useState, useEffect } from "react";
-import Description from "./components/Description";
+//import Description from "./components/Description";
 import Options from "./components/Options";
 
 function App() {
@@ -87,6 +87,8 @@ function App() {
 
   //TODO: handleSubmit
   const handleSubmit = (event) => {
+    console.log("handle submit activated!");
+    
     event.preventDefault();
     alert(`The data you submitted: `, inputs);
   };

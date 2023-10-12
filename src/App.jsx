@@ -4,14 +4,24 @@ import "./App.css";
 import { useState, useEffect } from "react";
 //import Description from "./components/Description";
 import Options from "./components/Options";
+import OptionForm from "./components/OptionForm";
 
 function App() {
   //#region variables
   //const [title, setTitle] = useState("title default");
   //const [description, setDescription] = useState("description default");
   const maxOptions = 10;
+  //gloabl index for options? https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
   const [options, setOptions] = useState([]);
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState([
+    {
+      label: "Draggable",
+      type: "text",
+      draggableValue: "",
+      columnEntryValue: "",
+      id: 1
+    },
+  ]);
 
   //#endregion
 
@@ -20,7 +30,6 @@ function App() {
   useEffect(() => {
     //get all inital task data that are in the database, which should be none by default
     //console.log("get all effect");
-
     //get all the data, then get the options object and set the options useState with setOptions
     //TODO: ota kommentit pois, kun aiot tehdä backendiä
     //   taskService
@@ -42,11 +51,15 @@ function App() {
     console.log("Add option button clicked", event.target);
 
     const optionObject = {
-      columnEntry: "column entry",
-      name: `Option ${options.length + 1}`,
+      draggableValue: "",
+      columnEntryValue: "",
+      //name: `Option ${options.length + 1}`,
+      type: "text",
+      label: "label",
       id: options.length + 1,
     };
-    setOptions(options.concat(optionObject));
+    //setOptions(options.concat(optionObject));
+    setInputs(inputs.concat(optionObject));
 
     // taskService
     //   .createOption(optionObject)
@@ -77,18 +90,22 @@ function App() {
   };
   //#endregion
 
-  const handleChange = (event) => {
-    console.log(event.target);
-    const name = event.target.name;
-    console.log(event.target.name);
-    const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}))
-  }
+  const handleChange = (event, index) => {
+    console.log("target: ", event.target);
+    console.log("value: ", event.target.value);
+    console.log("name: ", event.target.name);
+    //const name = event.target.name;
+
+    //handle multiple inputs
+    const values = [...inputs];
+    values[index].value = event.target.value;
+    setInputs(values);
+  };
 
   //TODO: handleSubmit
   const handleSubmit = (event) => {
     console.log("handle submit activated!");
-    
+
     event.preventDefault();
     alert(`The data you submitted: `, inputs);
   };
@@ -119,12 +136,27 @@ function App() {
               <legend>
                 Options {options.length}/{maxOptions}
               </legend>
-              <Options options={options} removeOption={removeOption} handleChange={handleChange}></Options>
-              <button onClick={addOption}>add option +</button>
+              <ol>
+                {/* Create a list item from every object in the array */}
+                {inputs.map((object, index) => (
+                  <OptionForm
+                    key={object.id}
+                    objValue={object}
+                    draggableValue={object.draggableValue}
+                    columnEntryValue={object.columnEntryValue}
+                    handleChange={handleChange}         
+                    inputs={inputs[object.id]}
+                    removeOption={() => removeOption(object, index)}
+                    optionID={object.id}
+                    index={index}
+                  ></OptionForm>
+                ))}
+              </ol>
               <p>
                 Options {options.length}/{maxOptions}
               </p>
             </fieldset>
+            <button onClick={addOption}>add option +</button>
           </div>
         </section>
       </form>

@@ -6,10 +6,15 @@ import OptionForm from "./OptionForm";
  * @param {function} removeOption
  * @returns Component for the list of options
  */
-const Options = ({ options, removeOption, handleChange }) => {
+const Options = ({ options, removeOption, handleChange, inputs }) => {
   const maxOptions = 10; //TODO:add maximum limit
+  console.log('inputs:', inputs[0]);
+  console.log('options:', options);
   return (
-    <div>
+    <fieldset>
+      <legend>
+        Options {options.length}/{maxOptions}
+      </legend>
       <ol>
         {/* Create a list item from every object in the array */}
         {options.map((option, index) => (
@@ -17,12 +22,17 @@ const Options = ({ options, removeOption, handleChange }) => {
             {option.name}
             <OptionForm
               removeOption={() => removeOption(option, index)}
-              handleChange={handleChange} optionID={option.id}
+              handleChange={handleChange}
+              optionID={option.id}
+              inputs={inputs[option.id]}
             ></OptionForm>
           </li>
         ))}
       </ol>
-    </div>
+      <p>
+        Options {options.length}/{maxOptions}
+      </p>
+    </fieldset>
   );
 };
 
@@ -30,7 +40,7 @@ Options.propTypes = {
   options: PropTypes.array,
   maxOptions: PropTypes.number,
   removeOption: PropTypes.func,
-  handleChange: PropTypes.func
+  handleChange: PropTypes.func,
 };
 
 export default Options;

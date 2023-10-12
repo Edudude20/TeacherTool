@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 
 //TODO: Labels
@@ -6,25 +7,33 @@ import PropTypes from "prop-types";
  * @param {method} removeOption method to remove an option
  * @returns The list item option for Match-the-columns
  */
-const OptionForm = ({ removeOption, handleChange, optionID }) => {
+const OptionForm = ({ objValue, removeOption, handleChange, index, optionID, inputs }) => {
+  //removeOption, handleChange, optionID, inputs
+
+  console.log(objValue);
+
+  const {label, type, value, id, draggableValue, columEntryValue} = objValue;
   return (
     <div>
       <label>
         <input
-          type="text"
-          defaultValue={"default draggable value"}
+          type={type || "text"}
+          //defaultValue="default draggable value"
+          id={id}
           name="draggable"
-          id={optionID}
-          onChange={handleChange}
+          onChange={(event) => handleChange(event, index)}
+          value={draggableValue || ""}
+
         />
       </label>
       <label>
         <input
-          type="text"
-          defaultValue={"default column entry"}
-          name="column-entry"
-          onChange={handleChange}
-          id={optionID}
+          type={type || "text"}
+          //defaultValue={"default column entry"}
+          id={id}
+          name="columnEntry"
+          onChange={(event) => handleChange(event, index)}
+          value={columEntryValue || ""}
         />
       </label>
       <button onClick={removeOption}>remove</button>

@@ -3,6 +3,16 @@ import PropTypes from "prop-types";
 
 //TODO: Labels
 
+{/* <label>
+<input
+  type={type || "text"}
+  name="columnEntry"
+  onChange={(event) => handleChange(event, index)}
+  value={columEntryValue || ""}
+  //defaultValue={"default column entry"}
+/>
+</label> */}
+
 /**
  * @param {method} removeOption method to remove an option
  * @returns The list item option for Match-the-columns
@@ -16,24 +26,13 @@ const OptionForm = ({ objValue, removeOption, handleChange, index, optionID, inp
   return (
     <div>
       <label>
+      {`draggable-${index}`}
         <input
           type={type || "text"}
+          name={`draggable-${index}`}
+          onChange={(event) => handleChange(event, index)}
+          value={value || ""}
           //defaultValue="default draggable value"
-          id={id}
-          name="draggable"
-          onChange={(event) => handleChange(event, index)}
-          value={draggableValue || ""}
-
-        />
-      </label>
-      <label>
-        <input
-          type={type || "text"}
-          //defaultValue={"default column entry"}
-          id={id}
-          name="columnEntry"
-          onChange={(event) => handleChange(event, index)}
-          value={columEntryValue || ""}
         />
       </label>
       <button onClick={removeOption}>remove</button>

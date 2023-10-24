@@ -3,7 +3,6 @@ import "./App.css";
 //import taskService from "./services/task";
 import { useState, useEffect } from "react";
 //import Description from "./components/Description";
-import Options from "./components/Options";
 import OptionForm from "./components/OptionForm";
 
 function App() {
@@ -12,8 +11,8 @@ function App() {
   //const [description, setDescription] = useState("description default");
   const maxOptions = 10;
   //gloabl index for options? https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
-  const [options, setOptions] = useState([]);
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState([]);
+  const [options, setOptions] = useState([])
 
   //#endregion
 
@@ -38,17 +37,13 @@ function App() {
     //     .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected
   }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
 
-  const addOption = (event) => {
+  const handleAddOption = (event) => {
     event.preventDefault(); //estää lomakkeen FORM lähetyksen oletusarvoisen toiminnan, joka aiheuttaisi mm. sivun uudelleenlatautumisen TODO:käännä englanniksi
     console.log("Add option button clicked", event.target);
-
     const optionObject = {
-      draggableValue: "",
-      columnEntryValue: "",
-      //name: `Option ${options.length + 1}`,
+      label: "label", //TODO: add label to new object
       type: "text",
-      label: "label",
-      id: options.length + 1,
+      value: "",
     };
     //setOptions(options.concat(optionObject));
     setInputs(inputs.concat(optionObject));
@@ -63,21 +58,20 @@ function App() {
   };
 
   const removeOption = (option, optionIndex) => {
-    if (window.confirm(`delete option ${option.name}`)) {
-      const updatedOptions = [...options];
+    if (window.confirm(`delete option ${optionIndex}`)) {
+      const updatedOptions = [...inputs];
       updatedOptions.splice(optionIndex, 1);
       console.log("updated options array:", updatedOptions);
 
       const updatedOptionsWithNewIDs = updatedOptions.map((item, index) => ({
         ...item,
         name: `Option ${index + 1}`,
-        id: index + 1,
       }));
       console.log(
         `Removed item ${optionIndex}, new array with updated id's: `,
         updatedOptionsWithNewIDs
       );
-      setOptions(updatedOptionsWithNewIDs);
+      setInputs(updatedOptionsWithNewIDs);
     }
   };
   //#endregion
@@ -86,12 +80,11 @@ function App() {
     console.log("target: ", event.target);
     console.log("name: ", event.target.name);
     console.log("value: ", event.target.value);
-    const name = event.target.name; //for example: "draggable"
-    const value = event.target.value; //the input value
 
     //handle multiple inputs
-    //values[index].value = event.target.value;
-    setInputs({ ...inputs, [name]: value });
+    const values = [...inputs];
+    values[index].value = event.target.value;
+    setInputs(values);
   };
 
   //TODO: handleSubmit
@@ -123,42 +116,32 @@ function App() {
             <p>
               Task description: drag-and-drop the answer options to the open
               slots of their respective matches. Leave column entry (box on the
-              right side) empty if this is a false match. Options are draggable.
+              right side) empty if this is a false match.
             </p>
             <fieldset>
               <legend>
                 Options {options.length}/{maxOptions}
               </legend>
               <ol>
-                <label>
-                  Draggable
-                  <input
-                    type="text"
-                    name="draggable"
-                    value={inputs.draggable || ""}
-                    onChange={handleChange}
-                    //defaultValue="default draggable value"
-                  />
-                </label>
-                <label>
-                  Column Entry
-                  <input
-                    type="text"
-                    name="columnEntry"
-                    value={inputs.columnEntry || ""}
-                    onChange={handleChange}
-                    //defaultValue={"default column entry"}
-                  />
-                </label>
+                {/* Create a list item from every object in the array */}
+                {inputs.map((object, index) => (
+                  <OptionForm
+                    key={index} //TODO: don't use index!
+                    objValue={object}
+                    handleChange={handleChange}
+                    removeOption={() => removeOption(object, index)}
+                    index={index}
+                  ></OptionForm>
+                ))}
               </ol>
               <p>
                 Options {options.length}/{maxOptions}
               </p>
             </fieldset>
-            <button onClick={addOption}>add option +</button>
+            <button onClick={handleAddOption}>add option +</button>
           </div>
         </section>
-      <button type="submit">Submit/Continue/Preview</button>
+        <button type="submit">Submit/Continue/Preview</button>
       </form>
 
       <footer></footer>

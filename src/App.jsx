@@ -13,15 +13,7 @@ function App() {
   const maxOptions = 10;
   //gloabl index for options? https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
   const [options, setOptions] = useState([]);
-  const [inputs, setInputs] = useState([
-    {
-      label: "Draggable",
-      type: "text",
-      draggableValue: "",
-      columnEntryValue: "",
-      id: 1
-    },
-  ]);
+  const [inputs, setInputs] = useState({});
 
   //#endregion
 
@@ -92,21 +84,22 @@ function App() {
 
   const handleChange = (event, index) => {
     console.log("target: ", event.target);
-    console.log("value: ", event.target.value);
     console.log("name: ", event.target.name);
-    //const name = event.target.name;
+    console.log("value: ", event.target.value);
+    const name = event.target.name; //for example: "draggable"
+    const value = event.target.value; //the input value
 
     //handle multiple inputs
-    const values = [...inputs];
-    values[index].value = event.target.value;
-    setInputs(values);
+    //values[index].value = event.target.value;
+    setInputs({ ...inputs, [name]: value });
   };
 
   //TODO: handleSubmit
   const handleSubmit = (event) => {
-    console.log("handle submit activated!");
-
     event.preventDefault();
+
+    console.log("handle submit activated!");
+    console.log(`The data you submitted: `, inputs);
     alert(`The data you submitted: `, inputs);
   };
 
@@ -137,20 +130,26 @@ function App() {
                 Options {options.length}/{maxOptions}
               </legend>
               <ol>
-                {/* Create a list item from every object in the array */}
-                {inputs.map((object, index) => (
-                  <OptionForm
-                    key={object.id}
-                    objValue={object}
-                    draggableValue={object.draggableValue}
-                    columnEntryValue={object.columnEntryValue}
-                    handleChange={handleChange}         
-                    inputs={inputs[object.id]}
-                    removeOption={() => removeOption(object, index)}
-                    optionID={object.id}
-                    index={index}
-                  ></OptionForm>
-                ))}
+                <label>
+                  Draggable
+                  <input
+                    type="text"
+                    name="draggable"
+                    value={inputs.draggable || ""}
+                    onChange={handleChange}
+                    //defaultValue="default draggable value"
+                  />
+                </label>
+                <label>
+                  Column Entry
+                  <input
+                    type="text"
+                    name="columnEntry"
+                    value={inputs.columnEntry || ""}
+                    onChange={handleChange}
+                    //defaultValue={"default column entry"}
+                  />
+                </label>
               </ol>
               <p>
                 Options {options.length}/{maxOptions}
@@ -159,8 +158,8 @@ function App() {
             <button onClick={addOption}>add option +</button>
           </div>
         </section>
+      <button type="submit">Submit/Continue/Preview</button>
       </form>
-      <button>Submit/Continue/Preview</button>
 
       <footer></footer>
     </>

@@ -25,7 +25,7 @@ Acronyms by pi.ai:
  + Forms: https://developer.mozilla.org/en-US/docs/Learn/Forms/How_to_structure_a_web_form
  + HTML Layout: https://www.w3schools.com/html/html_layout.asp
  + HTML section: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section 
- + multiple inputs: https://www.telerik.com/blogs/how-to-programmatically-add-input-fields-react-forms
+ + multiple inputs: https://www.freecodecamp.org/news/build-dynamic-forms-in-react/
  + list key: https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318 
 
 # React + Vite

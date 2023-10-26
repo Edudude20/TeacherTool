@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 
 //TODO: Labels
 
-{/* <label>
+{
+  /* <label>
 <input
   type={type || "text"}
   name="columnEntry"
@@ -11,29 +12,34 @@ import PropTypes from "prop-types";
   value={columEntryValue || ""}
   //defaultValue={"default column entry"}
 />
-</label> */}
+</label> */
+}
 
-/**
- * @param {method} removeOption method to remove an option
- * @returns The list item option for Match-the-columns
- */
-const OptionForm = ({ objValue, removeOption, handleChange, index, optionID, inputs }) => {
+const OptionForm = (props) => {
   //removeOption, handleChange, optionID, inputs
+  console.log(props);
+ const { objectValues, removeOption, handleChange, index } = props;
+  console.log(objectValues);
 
-  console.log(objValue);
+  //const { label, type, value, id, } = draggableValue;
 
-  const {label, type, value, id, draggableValue, columEntryValue} = objValue;
   return (
     <div>
       <label>
-      {`draggable-${index}`}
+        {`draggable-${index}`}
         <input
-          type={type || "text"}
+          type={objectValues.type || "text"}
           name={`draggable-${index}`}
           onChange={(event) => handleChange(event, index)}
-          value={value || ""}
+          value={objectValues.draggableValue || ""}
           //defaultValue="default draggable value"
         />
+      </label>
+      <label htmlFor="">
+        <input 
+        type="text" 
+        value={objectValues.columnEntryValue || ""}
+        onChange={(event) => handleChange(event, index)} />
       </label>
       <button onClick={removeOption}>remove</button>
     </div>
@@ -42,7 +48,7 @@ const OptionForm = ({ objValue, removeOption, handleChange, index, optionID, inp
 
 OptionForm.propTypes = {
   removeOption: PropTypes.func,
-  handleChange: PropTypes.func
+  handleChange: PropTypes.func,
 };
 
 export default OptionForm;

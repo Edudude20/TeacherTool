@@ -10,8 +10,12 @@ function App() {
   //const [title, setTitle] = useState("title default");
   //const [description, setDescription] = useState("description default");
   const maxOptions = 10;
+
   //gloabl index for options? https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
-  const [inputs, setInputs] = useState([]);
+  const [inputs, setInputs] = useState([{
+    draggableValue: "",
+    columnEntryValue: "",
+  }]);
   const [options, setOptions] = useState([])
 
   //#endregion
@@ -41,10 +45,11 @@ function App() {
     event.preventDefault(); //estää lomakkeen FORM lähetyksen oletusarvoisen toiminnan, joka aiheuttaisi mm. sivun uudelleenlatautumisen TODO:käännä englanniksi
     console.log("Add option button clicked", event.target);
     const optionObject = {
-      label: "label", //TODO: add label to new object
-      type: "text",
-      value: "",
+      draggableValue: "",
+      columnEntryValue: "",
     };
+
+    console.log(optionObject);
     //setOptions(options.concat(optionObject));
     setInputs(inputs.concat(optionObject));
 
@@ -57,21 +62,21 @@ function App() {
     //   .catch((error) => console.log("create option service failed", error));
   };
 
-  const removeOption = (option, optionIndex) => {
+  const removeOption = (optionIndex) => {
     if (window.confirm(`delete option ${optionIndex}`)) {
       const updatedOptions = [...inputs];
       updatedOptions.splice(optionIndex, 1);
       console.log("updated options array:", updatedOptions);
 
-      const updatedOptionsWithNewIDs = updatedOptions.map((item, index) => ({
-        ...item,
-        name: `Option ${index + 1}`,
-      }));
+      // const updatedOptionsWithNewIDs = updatedOptions.map((item, index) => ({
+      //   ...item,
+      //   name: `Option ${index + 1}`,
+      // }));
+
       console.log(
-        `Removed item ${optionIndex}, new array with updated id's: `,
-        updatedOptionsWithNewIDs
+        `Removed item ${optionIndex}, new array with updated id's: `
       );
-      setInputs(updatedOptionsWithNewIDs);
+      setInputs(updatedOptions);
     }
   };
   //#endregion
@@ -83,7 +88,8 @@ function App() {
 
     //handle multiple inputs
     const values = [...inputs];
-    values[index].value = event.target.value;
+    console.log(values);
+    values[index][event.target.name] = event.target.value;
     setInputs(values);
   };
 
@@ -124,15 +130,31 @@ function App() {
               </legend>
               <ol>
                 {/* Create a list item from every object in the array */}
-                {inputs.map((object, index) => (
-                  <OptionForm
-                    key={index} //TODO: don't use index!
-                    objValue={object}
+                {inputs.map((object, index) => {//TODO:think about changing the name "object"
+                  {/* <OptionForm
+                    key={object.id} //TODO: don't use index!
+                    objectValues={object}
                     handleChange={handleChange}
                     removeOption={() => removeOption(object, index)}
                     index={index}
-                  ></OptionForm>
-                ))}
+                  ></OptionForm> */}
+                  return (
+                    <div key={index}>
+                      <input type="text"
+                      name="draggableValue"
+                      placeholder="Draggable"
+                      value={object.draggableValue}
+                      onChange={event => handleChange(event, index)} />
+                      <input type="text" 
+                        name="columnEntryValue"
+                        placeholder="Column Entry"
+                        value={object.columnEntryValue}
+                        onChange={event => handleChange(event, index)}
+                      />
+                      <button onClick={() => removeOption(index)}>remove</button>
+                    </div>
+                  )
+                })}
               </ol>
               <p>
                 Options {options.length}/{maxOptions}

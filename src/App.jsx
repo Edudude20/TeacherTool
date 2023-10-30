@@ -16,7 +16,8 @@ function App() {
     draggableValue: "",
     columnEntryValue: "",
   }]);
-  const [options, setOptions] = useState([])
+
+  const [disabled, setDisabled] = useState(false);
 
   //#endregion
 
@@ -43,15 +44,36 @@ function App() {
 
   const handleAddOption = (event) => {
     event.preventDefault(); //estää lomakkeen FORM lähetyksen oletusarvoisen toiminnan, joka aiheuttaisi mm. sivun uudelleenlatautumisen TODO:käännä englanniksi
-    console.log("Add option button clicked", event.target);
-    const optionObject = {
-      draggableValue: "",
-      columnEntryValue: "",
-    };
 
-    console.log(optionObject);
-    //setOptions(options.concat(optionObject));
-    setInputs(inputs.concat(optionObject));
+    const optionAmount = inputs.length;
+
+    if (optionAmount < maxOptions) {
+
+      console.log("Add option button clicked", event.target);
+      const optionObject = {
+        draggableValue: "",
+        columnEntryValue: "",
+      };
+      const updatedOptions = inputs.concat(optionObject); //Return a copy of the array with new option object
+
+      //setOptions(options.concat(optionObject));
+      setInputs(updatedOptions);
+      console.log("input amount after:", updatedOptions.length);
+      if (updatedOptions.length === maxOptions) {
+        console.log("disable the add button");
+        setDisabled(true);
+        
+      }
+      
+    }
+    else {
+      console.log("Too many options!", optionAmount);
+      alert(`Max option limit acquired!`);
+
+    }
+
+
+    
 
     // taskService
     //   .createOption(optionObject)
@@ -126,7 +148,7 @@ function App() {
             </p>
             <fieldset>
               <legend>
-                Options {options.length}/{maxOptions}
+                Options {inputs.length}/{maxOptions}
               </legend>
               <ol>
                 {/* Create a list item from every object in the array */}
@@ -157,10 +179,10 @@ function App() {
                 })}
               </ol>
               <p>
-                Options {options.length}/{maxOptions}
+                Options {inputs.length}/{maxOptions}
               </p>
             </fieldset>
-            <button onClick={handleAddOption}>add option +</button>
+            {disabled ? (<button className="disabled" disabled>Add option</button>) : (<button onClick={handleAddOption}>add option</button>)}
           </div>
         </section>
         <button type="submit">Submit/Continue/Preview</button>

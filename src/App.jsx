@@ -1,15 +1,124 @@
 import "./App.css";
-//import TextInput from "./components/TextInput";
 //import taskService from "./services/task";
 import { useState, useEffect } from "react";
-//import Description from "./components/Description";
-import OptionForm from "./components/OptionForm";
+import PropTypes from 'prop-types';
+
+const TicTacToeComponent = () => {
+  return <div>Render the Tic-Tac-Toe content here</div>;
+};
+const TaskXComponent = () => {
+  return <div>Render the Task X content here</div>;
+};
+
+const Task = (props) => {
+  //console.log(props);
+  const {
+    selectedOption,
+    inputs,
+    maxOptions,
+    optionMaxInputLimit,
+    handleOptionsChange,
+    disabled,
+    handleAddOption,
+    removeOption,
+  } = props;
+  let renderedComponent = null;
+
+  switch (selectedOption) {
+    case "match-the-columns":
+      renderedComponent = (
+        <div>
+          <h3>Options</h3>
+          <p>
+            Task description: drag-and-drop the answer options to the open slots
+            of their respective matches. Leave column entry (box on the right
+            side) empty if this is a false match.
+          </p>
+          <fieldset>
+            <legend>
+              Options {inputs.options.length}/{maxOptions}
+            </legend>
+            <ol>
+              {/* Create a list item from every object in the array */}
+              {inputs.options.map((object, index) => {
+                //TODO:think about changing the name "object"
+                {
+                  /* <OptionForm
+                    key={object.id} //TODO: don't use index!
+                    objectValues={object}
+                    handleChange={handleChange}
+                    removeOption={() => removeOption(object, index)}
+                    index={index}
+                  ></OptionForm> */
+                }
+                return (
+                  <div key={index}>
+                    <input
+                      type="text"
+                      name="draggableValue"
+                      placeholder="Draggable"
+                      value={object.draggableValue}
+                      onChange={(event) => handleOptionsChange(event, index)}
+                      maxLength={optionMaxInputLimit}
+                    />
+                    <input
+                      type="text"
+                      name="columnEntryValue"
+                      placeholder="Column Entry"
+                      value={object.columnEntryValue}
+                      onChange={(event) => handleOptionsChange(event, index)}
+                      maxLength={optionMaxInputLimit}
+                    />
+                    <button onClick={() => removeOption(index)}>remove</button>
+                  </div>
+                );
+              })}
+            </ol>
+            <p>
+              Options {inputs.options.length}/{maxOptions}
+            </p>
+
+            {disabled ? (
+              <button className="disabled" disabled>
+                Add option
+              </button>
+            ) : (
+              <button onClick={handleAddOption}>add option</button>
+            )}
+          </fieldset>
+        </div>
+      );
+
+      break;
+    case "tic-tac-toe":
+      renderedComponent = <TicTacToeComponent></TicTacToeComponent>;
+      break;
+    case "task-x":
+      renderedComponent = <TaskXComponent></TaskXComponent>;
+      break;
+
+    default:
+      renderedComponent = null;
+      break;
+  }
+
+  return <div className="task">{renderedComponent}</div>;
+};
+Task.propTypes = {
+  selectedOption: PropTypes.string.isRequired,
+  inputs: PropTypes.object.isRequired,
+  maxOptions: PropTypes.number.isRequired,
+  optionMaxInputLimit: PropTypes.number.isRequired,
+  handleOptionsChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  handleAddOption: PropTypes.func.isRequired,
+  removeOption: PropTypes.func.isRequired,
+};
 
 function App() {
   //#region variables
-  //const [title, setTitle] = useState("title default");
-  //const [description, setDescription] = useState("description default");
   const maxOptions = 10;
+  const optionMaxInputLimit = 30;
 
   //gloabl index for options? https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
   const [inputs, setInputs] = useState({
@@ -21,7 +130,8 @@ function App() {
       },
     ],
   });
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(false); //"add options" button deactivation state
+  const [selectedTask, setSelectedTask] = useState("match-the-columns");
 
   //#endregion
 
@@ -87,34 +197,35 @@ function App() {
   const handleOptionsChange = (event, index) => {
     // Create a shallow copy of the inputs object
     const updatedInputs = { ...inputs };
-    
+
     // Create a shallow copy of the options array for the specific index
     updatedInputs.options = [...updatedInputs.options];
     updatedInputs.options[index] = { ...updatedInputs.options[index] };
-  
+
     // Update the property with the new value
     updatedInputs.options[index][event.target.name] = event.target.value;
-  
+
     // Update the state with the modified inputs
     setInputs(updatedInputs);
 
     //By following this approach, you are maintaining immutability and ensuring that state updates correctly trigger re-renders. (thanks ChatGPT)
   };
-  
 
   const handleFormChange = (event) => {
     // Create a shallow copy of the inputs object
     const updatedInputs = { ...inputs };
-  
+
     // Update the property with the new value
     updatedInputs[event.target.name] = event.target.value;
-  
+
     // Update the state with the modified inputs
     setInputs(updatedInputs);
   };
-  
 
-  //TODO: handleSubmit
+  const handleSelectChange = (event) => {
+    const selectedOption = event.target.value;
+    setSelectedTask(selectedOption); // Update the selected task in the state
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -154,64 +265,28 @@ function App() {
           </p>
           <p>Please select a task type using the dropdown menu below.</p>
           <label htmlFor="task-type">
-            <button>Select task type (dropdown)</button>
+            <select
+              name="task-type"
+              id="task-type"
+              value={selectedTask}
+              onChange={handleSelectChange}
+            >
+              <option value="match-the-columns">Match the Columns</option>
+              <option value="tic-tac-toe">Tic-Tac-Toe</option>
+              <option value="task-x">Task X</option>
+            </select>
+            <p>Selected option: {selectedTask}</p>
           </label>
-          <h3>Options</h3>
-          <p>
-            Task description: drag-and-drop the answer options to the open slots
-            of their respective matches. Leave column entry (box on the right
-            side) empty if this is a false match.
-          </p>
-          <fieldset>
-            <legend>
-              Options {inputs.length}/{maxOptions}
-            </legend>
-            <ol>
-              {/* Create a list item from every object in the array */}
-              {inputs.options.map((object, index) => {
-                //TODO:think about changing the name "object"
-                {
-                  /* <OptionForm
-                    key={object.id} //TODO: don't use index!
-                    objectValues={object}
-                    handleChange={handleChange}
-                    removeOption={() => removeOption(object, index)}
-                    index={index}
-                  ></OptionForm> */
-                }
-                return (
-                  <div key={index}>
-                    <input
-                      type="text"
-                      name="draggableValue"
-                      placeholder="Draggable"
-                      value={object.draggableValue}
-                      onChange={(event) => handleOptionsChange(event, index)}
-                    />
-                    <input
-                      type="text"
-                      name="columnEntryValue"
-                      placeholder="Column Entry"
-                      value={object.columnEntryValue}
-                      onChange={(event) => handleOptionsChange(event, index)}
-                    />
-                    <button onClick={() => removeOption(index)}>remove</button>
-                  </div>
-                );
-              })}
-            </ol>
-            <p>
-              Options {inputs.length}/{maxOptions}
-            </p>
-
-            {disabled ? (
-              <button className="disabled" disabled>
-                Add option
-              </button>
-            ) : (
-              <button onClick={handleAddOption}>add option</button>
-            )}
-          </fieldset>
+          <Task
+            selectedOption={selectedTask}
+            inputs={inputs}
+            maxOptions={maxOptions}
+            optionMaxInputLimit={optionMaxInputLimit}
+            handleOptionsChange={handleOptionsChange}
+            disabled={disabled}
+            handleAddOption={handleAddOption}
+            removeOption={removeOption}
+          ></Task>
         </section>
         <button type="submit">Submit/Continue/Preview</button>
       </form>

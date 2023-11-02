@@ -2,6 +2,7 @@ import "./App.css";
 //import taskService from "./services/task";
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 
 const TicTacToeComponent = () => {
   return <div>Render the Tic-Tac-Toe content here</div>;
@@ -39,7 +40,10 @@ const Task = (props) => {
               Options {inputs.options.length}/{maxOptions}
             </legend>
             <ol>
-              {/* Create a list item from every object in the array */}
+              {
+                /* Create a list item from every object in the array 
+              //gloabl index for options? https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318*/
+              }
               {inputs.options.map((object, index) => {
                 //TODO:think about changing the name "object"
                 {
@@ -52,7 +56,7 @@ const Task = (props) => {
                   ></OptionForm> */
                 }
                 return (
-                  <div key={index}>
+                  <div key={object.id}>
                     <input
                       type="text"
                       name="draggableValue"
@@ -120,13 +124,14 @@ function App() {
   const maxOptions = 10;
   const optionMaxInputLimit = 30;
 
-  //gloabl index for options? https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
+  
   const [inputs, setInputs] = useState({
     title: "",
     options: [
       {
         draggableValue: "",
         columnEntryValue: "",
+        id: uuidv4(),
       },
     ],
   });
@@ -167,6 +172,7 @@ function App() {
       const optionObject = {
         draggableValue: "",
         columnEntryValue: "",
+        id: uuidv4(), //generate a unique ID
       };
       //Using functional update form of State:
       //spread the properties of the "previous" inputs object and update the options array with a new object

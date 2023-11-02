@@ -1,8 +1,9 @@
 import "./App.css";
 //import taskService from "./services/task";
 import { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
+import PropTypes from "prop-types";
+
+import { v4 as uuidv4 } from "uuid"; //unique id for map key https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
 
 const TicTacToeComponent = () => {
   return <div>Render the Tic-Tac-Toe content here</div>;
@@ -10,6 +11,13 @@ const TicTacToeComponent = () => {
 const TaskXComponent = () => {
   return <div>Render the Task X content here</div>;
 };
+
+const Slide = (props) => {
+  console.log(props);
+
+  return <div>Slide</div>
+};
+Slide.propTypes = {};
 
 const Task = (props) => {
   //console.log(props);
@@ -30,6 +38,7 @@ const Task = (props) => {
       renderedComponent = (
         <div>
           <h3>Options</h3>
+          
           <p>
             Task description: drag-and-drop the answer options to the open slots
             of their respective matches. Leave column entry (box on the right
@@ -40,43 +49,29 @@ const Task = (props) => {
               Options {inputs.options.length}/{maxOptions}
             </legend>
             <ol>
-              {
-                /* Create a list item from every object in the array 
-              //gloabl index for options? https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318*/
-              }
-              {inputs.options.map((object, index) => {
+              {/* Create a list item from every object in the array */}
+              {inputs.options.map((option, index) => (
                 //TODO:think about changing the name "object"
-                {
-                  /* <OptionForm
-                    key={object.id} //TODO: don't use index!
-                    objectValues={object}
-                    handleChange={handleChange}
-                    removeOption={() => removeOption(object, index)}
-                    index={index}
-                  ></OptionForm> */
-                }
-                return (
-                  <div key={object.id}>
-                    <input
-                      type="text"
-                      name="draggableValue"
-                      placeholder="Draggable"
-                      value={object.draggableValue}
-                      onChange={(event) => handleOptionsChange(event, index)}
-                      maxLength={optionMaxInputLimit}
-                    />
-                    <input
-                      type="text"
-                      name="columnEntryValue"
-                      placeholder="Column Entry"
-                      value={object.columnEntryValue}
-                      onChange={(event) => handleOptionsChange(event, index)}
-                      maxLength={optionMaxInputLimit}
-                    />
-                    <button onClick={() => removeOption(index)}>remove</button>
-                  </div>
-                );
-              })}
+                <div key={option.id}>
+                  <input
+                    type="text"
+                    name="draggableValue"
+                    placeholder="Draggable"
+                    value={option.draggableValue}
+                    onChange={(event) => handleOptionsChange(event, index)}
+                    maxLength={optionMaxInputLimit}
+                  />
+                  <input
+                    type="text"
+                    name="columnEntryValue"
+                    placeholder="Column Entry"
+                    value={option.columnEntryValue}
+                    onChange={(event) => handleOptionsChange(event, index)}
+                    maxLength={optionMaxInputLimit}
+                  />
+                  <button onClick={() => removeOption(index)}>remove</button>
+                </div>
+              ))}
             </ol>
             <p>
               Options {inputs.options.length}/{maxOptions}
@@ -124,9 +119,14 @@ function App() {
   const maxOptions = 10;
   const optionMaxInputLimit = 30;
 
-  
   const [inputs, setInputs] = useState({
     title: "",
+    slides: [
+      {
+        id: uuidv4(),
+        slideValue: "",
+      },
+    ],
     options: [
       {
         draggableValue: "",
@@ -162,7 +162,7 @@ function App() {
   }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
 
   const handleAddOption = (event) => {
-    event.preventDefault(); //estää lomakkeen FORM lähetyksen oletusarvoisen toiminnan, joka aiheuttaisi mm. sivun uudelleenlatautumisen TODO:käännä englanniksi
+    event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
     const { options } = inputs;
     const optionAmount = options.length; //how many options in the options array
 
@@ -189,6 +189,11 @@ function App() {
       alert(`Max option limit acquired!`);
     }
   };
+
+  const handleAddSlide = (event) => {
+    event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
+
+  }
 
   const removeOption = (optionIndex) => {
     if (window.confirm(`delete option ${optionIndex}`)) {
@@ -250,17 +255,46 @@ function App() {
           <h2>
             1. Title <span aria-label="required">*</span>
           </h2>
-          <p>TODO: The instructions for the title</p>
+          <p>
+            Please write the title of the task. This will show for the students
+            as they select their task from the task machine so make it clear.
+          </p>
           <label htmlFor="title">
             <input
               type="text"
               id="title"
               name="title"
-              placeholder="placeholder text"
+              placeholder="Example: This task is about the functionalities of..."
               value={inputs.title}
               onChange={(event) => handleFormChange(event)}
             />
           </label>
+        </section>
+        <section>
+          <h2>
+            2. Slides <span aria-label="required">*</span>
+          </h2>
+          <p>
+            Please write the description of the task for the students. These
+            will show as slide (similarly to PowerPoint) for the students as
+            they open the task.
+          </p>
+          <ol>
+            {inputs.slides.map((slide, index) => (
+              <div key={slide.id}>
+                <label htmlFor="slides">
+                  <textarea
+                    name="slides"
+                    id="slides"
+                    cols="30"
+                    rows="10"
+                    maxLength={1000}
+                    placeholder="Example: This task is about the functionalities of HTML form usability..."
+                  ></textarea>
+                </label>
+              </div>
+            ))}
+          </ol>
         </section>
         <section>
           <h2>

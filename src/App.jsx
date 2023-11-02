@@ -12,13 +12,6 @@ const TaskXComponent = () => {
   return <div>Render the Task X content here</div>;
 };
 
-const Slide = (props) => {
-  console.log(props);
-
-  return <div>Slide</div>
-};
-Slide.propTypes = {};
-
 const Task = (props) => {
   //console.log(props);
   const {
@@ -27,18 +20,20 @@ const Task = (props) => {
     maxOptions,
     optionMaxInputLimit,
     handleOptionsChange,
-    disabled,
+    isOptionsDisabled,
     handleAddOption,
     removeOption,
   } = props;
   let renderedComponent = null;
+
+  console.log("is options disabled?:", isOptionsDisabled);
 
   switch (selectedOption) {
     case "match-the-columns":
       renderedComponent = (
         <div>
           <h3>Options</h3>
-          
+
           <p>
             Task description: drag-and-drop the answer options to the open slots
             of their respective matches. Leave column entry (box on the right
@@ -52,6 +47,7 @@ const Task = (props) => {
               {/* Create a list item from every object in the array */}
               {inputs.options.map((option, index) => (
                 //TODO:think about changing the name "object"
+                //TODO: input id?
                 <div key={option.id}>
                   <input
                     type="text"
@@ -77,7 +73,7 @@ const Task = (props) => {
               Options {inputs.options.length}/{maxOptions}
             </p>
 
-            {disabled ? (
+            {isOptionsDisabled ? (
               <button className="disabled" disabled>
                 Add option
               </button>
@@ -109,14 +105,15 @@ Task.propTypes = {
   maxOptions: PropTypes.number.isRequired,
   optionMaxInputLimit: PropTypes.number.isRequired,
   handleOptionsChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
   handleAddOption: PropTypes.func.isRequired,
   removeOption: PropTypes.func.isRequired,
+  isOptionsDisabled: PropTypes.bool.isRequired,
 };
 
 function App() {
   //#region variables
   const maxOptions = 10;
+  const maxSlides = 4;
   const optionMaxInputLimit = 30;
 
   const [inputs, setInputs] = useState({
@@ -135,12 +132,11 @@ function App() {
       },
     ],
   });
-  const [disabled, setDisabled] = useState(false); //"add options" button deactivation state
+  const isOptionsDisabled = inputs.options.length >= maxOptions; //deactivate "add options" button if max limit is reached
+  const isSlidesDisabled = inputs.slides.length >= maxSlides; //deactivate "add slides" button if max limit is reached
   const [selectedTask, setSelectedTask] = useState("match-the-columns");
 
   //#endregion
-
-  //#region tapahtumankäsittelijät
 
   useEffect(() => {
     //get all inital task data that are in the database, which should be none by default
@@ -163,8 +159,8 @@ function App() {
 
   const handleAddOption = (event) => {
     event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
-    const { options } = inputs;
-    const optionAmount = options.length; //how many options in the options array
+    const { options } = inputs; // Destructure the 'options' property from the 'inputs' object
+    const optionAmount = options.length; //How many options in the options array
 
     if (optionAmount < maxOptions) {
       console.log("Add option button clicked", event.target);
@@ -180,11 +176,6 @@ function App() {
         ...prevInputs,
         options: [...options, optionObject],
       }));
-
-      if (optionAmount + 1 === maxOptions) {
-        //disable the add button if the maximum amount of options is achieved
-        setDisabled(true);
-      }
     } else {
       alert(`Max option limit acquired!`);
     }
@@ -192,8 +183,25 @@ function App() {
 
   const handleAddSlide = (event) => {
     event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
-
-  }
+    const { slides } = inputs; // Destructure the 'slides' property from the 'inputs' object
+    const slidesAmount = slides.length;
+    if (slidesAmount < maxSlides) {
+      console.log("Add slide button clicked", event.target);
+      //Create a new empty slide object
+      const slideObject = {
+        id: uuidv4(), //generate a unique ID
+        slideValue: "",
+      };
+      //Using functional update form of State:
+      //spread the properties of the "previous" inputs object and update the options array with a new object
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        slides: [...slides, slideObject],
+      }));
+    } else {
+      alert(`Max slide limit acquired!`);
+    }
+  };
 
   const removeOption = (optionIndex) => {
     if (window.confirm(`delete option ${optionIndex}`)) {
@@ -203,7 +211,15 @@ function App() {
       }));
     }
   };
-  //#endregion
+
+  const removeSlide = (slideIndex) => {
+    if (window.confirm(`delete option ${slideIndex}`)) {
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        slides: prevInputs.slides.filter((_, index) => index !== index),
+      }));
+    }
+  };
 
   const handleOptionsChange = (event, index) => {
     // Create a shallow copy of the inputs object
@@ -215,6 +231,23 @@ function App() {
 
     // Update the property with the new value
     updatedInputs.options[index][event.target.name] = event.target.value;
+
+    // Update the state with the modified inputs
+    setInputs(updatedInputs);
+
+    //By following this approach, you are maintaining immutability and ensuring that state updates correctly trigger re-renders. (thanks ChatGPT)
+  };
+  const handleSlidesChange = (event, index) => {
+    console.log(event.target.name);
+    // Create a shallow copy of the inputs object
+    const updatedInputs = { ...inputs };
+
+    // Create a shallow copy of the options array for the specific index
+    updatedInputs.slides = [...updatedInputs.slides];
+    updatedInputs.slides[index] = { ...updatedInputs.slides[index] };
+
+    // Update the property with the new value
+    updatedInputs.slides[index][event.target.name] = event.target.value;
 
     // Update the state with the modified inputs
     setInputs(updatedInputs);
@@ -282,19 +315,32 @@ function App() {
           <ol>
             {inputs.slides.map((slide, index) => (
               <div key={slide.id}>
-                <label htmlFor="slides">
+                <label htmlFor="slide">
                   <textarea
-                    name="slides"
-                    id="slides"
+                    name="slideValue"
+                    id="slide"
                     cols="30"
                     rows="10"
                     maxLength={1000}
                     placeholder="Example: This task is about the functionalities of HTML form usability..."
+                    value={slide.slideValue}
+                    onChange={(event) => handleSlidesChange(event, index)}
                   ></textarea>
+                  <button onClick={() => removeSlide(index)}>remove</button>
                 </label>
               </div>
             ))}
           </ol>
+          <p>
+            Slides {inputs.slides.length}/{maxSlides}
+          </p>
+          {isSlidesDisabled ? (
+            <button className="disabled" disabled>
+              Add slide
+            </button>
+          ) : (
+            <button onClick={handleAddSlide}>Add slide</button>
+          )}
         </section>
         <section>
           <h2>
@@ -323,7 +369,7 @@ function App() {
             maxOptions={maxOptions}
             optionMaxInputLimit={optionMaxInputLimit}
             handleOptionsChange={handleOptionsChange}
-            disabled={disabled}
+            isOptionsDisabled={isOptionsDisabled}
             handleAddOption={handleAddOption}
             removeOption={removeOption}
           ></Task>

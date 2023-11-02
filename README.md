@@ -26,7 +26,7 @@ Acronyms by pi.ai:
  + HTML Layout: https://www.w3schools.com/html/html_layout.asp
  + HTML section: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section 
  + multiple inputs: https://www.freecodecamp.org/news/build-dynamic-forms-in-react/
- + list key: https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318 
+ + list key: https://medium.com/geekculture/reactjs-why-index-as-a-key-is-an-anti-pattern-4b9dc6ef0067
  + Form Usability Checklist: https://alistapart.com/article/sensibleforms/
 
 # React + Vite

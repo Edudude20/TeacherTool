@@ -2,112 +2,9 @@ import "./App.css";
 //import taskService from "./services/task";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import Task from './components/Task';
 
 import { v4 as uuidv4 } from "uuid"; //unique id for map key https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
-
-const TicTacToeComponent = () => {
-  return <div>Render the Tic-Tac-Toe content here</div>;
-};
-const TaskXComponent = () => {
-  return <div>Render the Task X content here</div>;
-};
-
-const Task = (props) => {
-  //console.log(props);
-  const {
-    selectedOption,
-    inputs,
-    maxOptions,
-    optionMaxInputLimit,
-    handleOptionsChange,
-    isOptionsDisabled,
-    handleAddOption,
-    removeOption,
-  } = props;
-  let renderedComponent = null;
-
-  //console.log("is options disabled?:", isOptionsDisabled);
-
-  switch (selectedOption) {
-    case "match-the-columns":
-      renderedComponent = (
-        <div>
-          <h3>Options</h3>
-
-          <p>
-            Task description: drag-and-drop the answer options to the open slots
-            of their respective matches. Leave column entry (box on the right
-            side) empty if this is a false match.
-          </p>
-          <fieldset>
-            <legend>
-              Options {inputs.options.length}/{maxOptions}
-            </legend>
-            <ol>
-              {/* Create a list item from every object in the array */}
-              {inputs.options.map((option, index) => (
-                //TODO:think about changing the name "object"
-                <div key={option.id}>
-                  <input
-                    type="text"
-                    name="draggableValue"
-                    placeholder="Draggable"
-                    value={option.draggableValue}
-                    onChange={(event) => handleOptionsChange(event, index)}
-                    maxLength={optionMaxInputLimit}
-                  />
-                  <input
-                    type="text"
-                    name="columnEntryValue"
-                    placeholder="Column Entry"
-                    value={option.columnEntryValue}
-                    onChange={(event) => handleOptionsChange(event, index)}
-                    maxLength={optionMaxInputLimit}
-                  />
-                  <button onClick={() => removeOption(index)}>remove</button>
-                </div>
-              ))}
-            </ol>
-            <p>
-              Options {inputs.options.length}/{maxOptions}
-            </p>
-
-            {isOptionsDisabled ? (
-              <button className="disabled" disabled>
-                Add option
-              </button>
-            ) : (
-              <button onClick={handleAddOption}>add option</button>
-            )}
-          </fieldset>
-        </div>
-      );
-
-      break;
-    case "tic-tac-toe":
-      renderedComponent = <TicTacToeComponent></TicTacToeComponent>;
-      break;
-    case "task-x":
-      renderedComponent = <TaskXComponent></TaskXComponent>;
-      break;
-
-    default:
-      renderedComponent = null;
-      break;
-  }
-
-  return <div className="task">{renderedComponent}</div>;
-};
-Task.propTypes = {
-  selectedOption: PropTypes.string.isRequired,
-  inputs: PropTypes.object.isRequired,
-  maxOptions: PropTypes.number.isRequired,
-  optionMaxInputLimit: PropTypes.number.isRequired,
-  handleOptionsChange: PropTypes.func.isRequired,
-  handleAddOption: PropTypes.func.isRequired,
-  removeOption: PropTypes.func.isRequired,
-  isOptionsDisabled: PropTypes.bool.isRequired,
-};
 
 function App() {
   //#region variables
@@ -202,6 +99,7 @@ function App() {
     }
   };
 
+  //TODO: add comment on how this works
   const removeOption = (optionIndex) => {
     if (window.confirm(`delete option ${optionIndex}`)) {
       setInputs((prevInputs) => ({
@@ -210,7 +108,7 @@ function App() {
       }));
     }
   };
-
+  //TODO: add comment on how this works
   const removeSlide = (slideIndex) => {
     console.log("remove slide number:", slideIndex);
     if (window.confirm(`delete option ${slideIndex}`)) {
@@ -237,6 +135,7 @@ function App() {
 
     //By following this approach, you are maintaining immutability and ensuring that state updates correctly trigger re-renders. (thanks ChatGPT)
   };
+
   const handleSlidesChange = (event, index) => {
     console.log(event.target.name);
     // Create a shallow copy of the inputs object
@@ -270,6 +169,7 @@ function App() {
     const selectedOption = event.target.value;
     setSelectedTask(selectedOption); // Update the selected task in the state
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 

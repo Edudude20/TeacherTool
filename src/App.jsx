@@ -26,7 +26,7 @@ const Task = (props) => {
   } = props;
   let renderedComponent = null;
 
-  console.log("is options disabled?:", isOptionsDisabled);
+  //console.log("is options disabled?:", isOptionsDisabled);
 
   switch (selectedOption) {
     case "match-the-columns":
@@ -47,7 +47,6 @@ const Task = (props) => {
               {/* Create a list item from every object in the array */}
               {inputs.options.map((option, index) => (
                 //TODO:think about changing the name "object"
-                //TODO: input id?
                 <div key={option.id}>
                   <input
                     type="text"
@@ -213,10 +212,11 @@ function App() {
   };
 
   const removeSlide = (slideIndex) => {
+    console.log("remove slide number:", slideIndex);
     if (window.confirm(`delete option ${slideIndex}`)) {
       setInputs((prevInputs) => ({
         ...prevInputs,
-        slides: prevInputs.slides.filter((_, index) => index !== index),
+        slides: prevInputs.slides.filter((_, index) => index !== slideIndex),
       }));
     }
   };

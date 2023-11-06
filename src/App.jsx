@@ -170,13 +170,6 @@ function App() {
 
   const handleSelectChange = (event) => {
     const selectedOption = event.target.value;
-    switch (selectedOption) {
-      case "match-the-columns":
-        break;
-
-      default:
-        break;
-    }
     setSelectedTask(selectedOption); // Update the selected task in the state
   };
 

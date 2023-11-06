@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import Button from "../Button";
 const MatchTheColumns = (props) => {
   //console.log(props);
   const {
@@ -35,7 +36,7 @@ const MatchTheColumns = (props) => {
               onChange={(event) => handleOptionsChange(event, index)}
               maxLength={optionMaxInputLimit}
             />
-            <button onClick={() => removeOption(index)}>remove</button>
+            <Button handleClick={() => removeOption(index)} label="Remove" className="remove-button"></Button>
           </div>
         ))}
       </ol>
@@ -44,11 +45,9 @@ const MatchTheColumns = (props) => {
       </p>
 
       {isOptionsDisabled ? (
-        <button className="disabled" disabled>
-          Add option
-        </button>
+        <Button label="Add option" className="add-button-disabled" isDisabled={isOptionsDisabled}></Button>
       ) : (
-        <button onClick={handleAddOption}>add option</button>
+        <Button handleClick={handleAddOption} label="Add option" className="add-button"></Button>
       )}
     </fieldset>
   );

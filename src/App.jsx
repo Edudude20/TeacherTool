@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Title from "./components/Title";
 import Slides from "./components/Slides";
 import Task from "./components/Task";
+import Button from './components/Button';
 
 import MatchTheColumns from "./components/tasks/MatchTheColumns";
 import TaskX from "./components/tasks/TaskX";
@@ -189,7 +190,7 @@ function App() {
       <p>
         Required fields are followed by <span aria-label="required">*</span>
       </p>
-      <form onSubmit={handleSubmit}>
+      <form>
         <Title inputs={inputs} handleFormChange={handleFormChange}></Title>
         <Slides
           slides={inputs.slides}
@@ -212,7 +213,7 @@ function App() {
           ></MatchTheColumns>
           <TaskX value={"testi"}></TaskX>
         </Task>
-        <button type="submit">Submit/Continue/Preview</button>
+        <Button type={"submit"} label="Submit/Continue/Preview" handleClick={handleSubmit} className={"submit-button"}></Button>
       </form>
 
       <footer></footer>

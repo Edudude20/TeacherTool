@@ -1,19 +1,20 @@
 import PropTypes from "prop-types";
 
 const Task = ({ selectedTask, handleSelectChange, children }) => {
-  //console.log("children:", children);
-
-  const [MatchTheColumns, TaskX] = children;
+  //Destructure the different task components from children
+  const [MatchTheColumns, TaskX] = children; 
   let renderedComponent = null;
 
+  // Determine the component to render based on the selected task
   switch (selectedTask) {
     case "match-the-columns":
       renderedComponent = MatchTheColumns;
-
       break;
-
-    default:
+    case "task-x":
       renderedComponent = TaskX;
+      break;
+    default:
+      renderedComponent = null;
       break;
   }
   return (
@@ -44,7 +45,7 @@ const Task = ({ selectedTask, handleSelectChange, children }) => {
 Task.propTypes = {
   selectedTask: PropTypes.string.isRequired,
   handleSelectChange: PropTypes.func.isRequired,
-  children: PropTypes.array.isRequired
-}
+  children: PropTypes.array.isRequired,
+};
 
 export default Task;

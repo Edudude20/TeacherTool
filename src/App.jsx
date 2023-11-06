@@ -12,10 +12,13 @@ import TaskX from "./components/tasks/TaskX";
 import { v4 as uuidv4 } from "uuid"; //unique id for map key https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
 
 function App() {
-  //#region variables
-  const maxOptions = 10;
+  //#region VARIABLES
 
+  //Constants
+  const maxOptions = 10;
   const maxSlides = 4;
+
+  //States
   const [inputs, setInputs] = useState({
     title: "",
     slides: [
@@ -32,9 +35,7 @@ function App() {
       },
     ],
   });
-
   const [selectedTask, setSelectedTask] = useState("match-the-columns");
-
   //#endregion
 
   useEffect(() => {
@@ -56,6 +57,7 @@ function App() {
     //     .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected
   }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
 
+  //#region Input handling functions
   const handleAddOption = (event) => {
     event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
     const { options } = inputs; // Destructure the 'options' property from the 'inputs' object
@@ -180,6 +182,7 @@ function App() {
     console.log(`The data you submitted: `, inputs);
     alert(`The data you submitted: `, inputs);
   };
+  //#endregion
 
   return (
     <>

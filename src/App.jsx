@@ -2,16 +2,16 @@ import "./App.css";
 //import taskService from "./services/task";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import Task from './components/Task';
-
+import Task from "./components/Task";
+import Title from "./components/Title";
+import Slides from "./components/Slides";
 import { v4 as uuidv4 } from "uuid"; //unique id for map key https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
 
 function App() {
   //#region variables
   const maxOptions = 10;
-  const maxSlides = 4;
-  const optionMaxInputLimit = 30;
 
+  const maxSlides = 4;
   const [inputs, setInputs] = useState({
     title: "",
     slides: [
@@ -28,8 +28,7 @@ function App() {
       },
     ],
   });
-  const isOptionsDisabled = inputs.options.length >= maxOptions; //deactivate "add options" button if max limit is reached
-  const isSlidesDisabled = inputs.slides.length >= maxSlides; //deactivate "add slides" button if max limit is reached
+
   const [selectedTask, setSelectedTask] = useState("match-the-columns");
 
   //#endregion
@@ -136,7 +135,7 @@ function App() {
     //By following this approach, you are maintaining immutability and ensuring that state updates correctly trigger re-renders. (thanks ChatGPT)
   };
 
-  const handleSlidesChange = (event, index) => {
+  const handleSlideChange = (event, index) => {
     console.log(event.target.name);
     // Create a shallow copy of the inputs object
     const updatedInputs = { ...inputs };
@@ -184,64 +183,14 @@ function App() {
         Required fields are followed by <span aria-label="required">*</span>
       </p>
       <form onSubmit={handleSubmit}>
-        <section>
-          <h2>
-            1. Title <span aria-label="required">*</span>
-          </h2>
-          <p>
-            Please write the title of the task. This will show for the students
-            as they select their task from the task machine so make it clear.
-          </p>
-          <label htmlFor="title">
-            <input
-              type="text"
-              id="title"
-              name="title"
-              placeholder="Example: This task is about the functionalities of..."
-              value={inputs.title}
-              onChange={(event) => handleFormChange(event)}
-            />
-          </label>
-        </section>
-        <section>
-          <h2>
-            2. Slides <span aria-label="required">*</span>
-          </h2>
-          <p>
-            Please write the description of the task for the students. These
-            will show as slide (similarly to PowerPoint) for the students as
-            they open the task.
-          </p>
-          <ol>
-            {inputs.slides.map((slide, index) => (
-              <div key={slide.id}>
-                <label htmlFor="slide">
-                  <textarea
-                    name="slideValue"
-                    id="slide"
-                    cols="30"
-                    rows="10"
-                    maxLength={1000}
-                    placeholder="Example: This task is about the functionalities of HTML form usability..."
-                    value={slide.slideValue}
-                    onChange={(event) => handleSlidesChange(event, index)}
-                  ></textarea>
-                  <button onClick={() => removeSlide(index)}>remove</button>
-                </label>
-              </div>
-            ))}
-          </ol>
-          <p>
-            Slides {inputs.slides.length}/{maxSlides}
-          </p>
-          {isSlidesDisabled ? (
-            <button className="disabled" disabled>
-              Add slide
-            </button>
-          ) : (
-            <button onClick={handleAddSlide}>Add slide</button>
-          )}
-        </section>
+        <Title inputs={inputs} handleFormChange={handleFormChange}></Title>
+        <Slides
+          slides={inputs.slides}
+          handleSlideChange={handleSlideChange}
+          handleAddSlide={handleAddSlide}
+          removeSlide={removeSlide}
+          maxSlides={maxSlides}
+        ></Slides>
         <section>
           <h2>
             4. Task settings <span aria-label="required">*</span>
@@ -267,9 +216,7 @@ function App() {
             selectedOption={selectedTask}
             inputs={inputs}
             maxOptions={maxOptions}
-            optionMaxInputLimit={optionMaxInputLimit}
             handleOptionsChange={handleOptionsChange}
-            isOptionsDisabled={isOptionsDisabled}
             handleAddOption={handleAddOption}
             removeOption={removeOption}
           ></Task>

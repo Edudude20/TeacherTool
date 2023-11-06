@@ -1,95 +1,50 @@
 import PropTypes from "prop-types";
 
-const TicTacToeComponent = () => {
-  return <div>Render the Tic-Tac-Toe content here</div>;
-};
-const TaskXComponent = () => {
-  return <div>Render the Task X content here</div>;
-};
+const Task = ({ selectedTask, handleSelectChange, children }) => {
+  //console.log("children:", children);
 
-const Task = (props) => {
-  console.log(props);
-  const {
-    selectedOption,
-    inputs,
-    maxOptions,
-    handleOptionsChange,
-    handleAddOption,
-    removeOption,
-  } = props;
-
+  const [MatchTheColumns, TaskX] = children;
   let renderedComponent = null;
-  
-  const isOptionsDisabled = inputs.options.length >= maxOptions; //deactivate "add options" button if max limit is reached
-  const optionMaxInputLimit = 30;
 
-  switch (selectedOption) {
+  switch (selectedTask) {
     case "match-the-columns":
-      renderedComponent = (
-        <div>
-          <fieldset>
-            <ol>
-              {/* Create a list item from every object in the array */}
-              {inputs.options.map((option, index) => (
-                //TODO:think about changing the name "object"
-                <div key={option.id}>
-                  <input
-                    type="text"
-                    name="draggableValue"
-                    placeholder="Draggable"
-                    value={option.draggableValue}
-                    onChange={(event) => handleOptionsChange(event, index)}
-                    maxLength={optionMaxInputLimit}
-                  />
-                  <input
-                    type="text"
-                    name="columnEntryValue"
-                    placeholder="Column Entry"
-                    value={option.columnEntryValue}
-                    onChange={(event) => handleOptionsChange(event, index)}
-                    maxLength={optionMaxInputLimit}
-                  />
-                  <button onClick={() => removeOption(index)}>remove</button>
-                </div>
-              ))}
-            </ol>
-            <p>
-              Options {inputs.options.length}/{maxOptions}
-            </p>
+      renderedComponent = MatchTheColumns;
 
-            {isOptionsDisabled ? (
-              <button className="disabled" disabled>
-                Add option
-              </button>
-            ) : (
-              <button onClick={handleAddOption}>add option</button>
-            )}
-          </fieldset>
-        </div>
-      );
-
-      break;
-    case "tic-tac-toe":
-      renderedComponent = <TicTacToeComponent></TicTacToeComponent>;
-      break;
-    case "task-x":
-      renderedComponent = <TaskXComponent></TaskXComponent>;
       break;
 
     default:
-      renderedComponent = null;
+      renderedComponent = TaskX;
       break;
   }
-
-  return <div className="task">{renderedComponent}</div>;
+  return (
+    <section>
+      <h2>
+        4. Task settings <span aria-label="required">*</span>
+      </h2>
+      <p>
+        This is the minigame that the students will play to finish the task.
+      </p>
+      <p>Please select a task type using the dropdown menu below.</p>
+      <label htmlFor="task-type">
+        <select
+          name="task-type"
+          id="task-type"
+          value={selectedTask}
+          onChange={handleSelectChange}
+        >
+          <option value="match-the-columns">Match the Columns</option>
+          <option value="task-x">Task X</option>
+        </select>
+        <p>Selected option: {selectedTask}</p>
+      </label>
+      {renderedComponent}
+    </section>
+  );
 };
 Task.propTypes = {
-  selectedOption: PropTypes.string.isRequired,
-  inputs: PropTypes.object.isRequired,
-  maxOptions: PropTypes.number.isRequired,
-  handleOptionsChange: PropTypes.func.isRequired,
-  handleAddOption: PropTypes.func.isRequired,
-  removeOption: PropTypes.func.isRequired,
-};
+  selectedTask: PropTypes.string.isRequired,
+  handleSelectChange: PropTypes.func.isRequired,
+  children: PropTypes.array.isRequired
+}
 
 export default Task;

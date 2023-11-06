@@ -1,0 +1,67 @@
+import PropTypes from "prop-types";
+const MatchTheColumns = (props) => {
+  //console.log(props);
+  const {
+    inputs,
+    maxOptions,
+    handleOptionsChange,
+    handleAddOption,
+    removeOption,
+  } = props;
+
+  const isOptionsDisabled = inputs.options.length >= maxOptions; //deactivate "add options" button if max limit is reached
+  const optionMaxInputLimit = 30;
+  return (
+    <div>
+      <fieldset>
+        <ol>
+          {/* Create a list item from every object in the array */}
+          {inputs.options.map((option, index) => (
+            //TODO:think about changing the name "object"
+            <div key={option.id}>
+              <input
+                type="text"
+                name="draggableValue"
+                placeholder="Draggable"
+                value={option.draggableValue}
+                onChange={(event) => handleOptionsChange(event, index)}
+                maxLength={optionMaxInputLimit}
+              />
+              <input
+                type="text"
+                name="columnEntryValue"
+                placeholder="Column Entry"
+                value={option.columnEntryValue}
+                onChange={(event) => handleOptionsChange(event, index)}
+                maxLength={optionMaxInputLimit}
+              />
+              <button onClick={() => removeOption(index)}>remove</button>
+            </div>
+          ))}
+        </ol>
+        <p>
+          Options {inputs.options.length}/{maxOptions}
+        </p>
+
+        {isOptionsDisabled ? (
+          <button className="disabled" disabled>
+            Add option
+          </button>
+        ) : (
+          <button onClick={handleAddOption}>add option</button>
+        )}
+      </fieldset>
+    </div>
+  );
+};
+
+MatchTheColumns.propTypes = {
+  selectedOption: PropTypes.string.isRequired,
+  inputs: PropTypes.object.isRequired,
+  maxOptions: PropTypes.number.isRequired,
+  handleOptionsChange: PropTypes.func.isRequired,
+  handleAddOption: PropTypes.func.isRequired,
+  removeOption: PropTypes.func.isRequired,
+};
+
+export default MatchTheColumns;

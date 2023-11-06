@@ -2,9 +2,13 @@ import "./App.css";
 //import taskService from "./services/task";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import Task from "./components/Task";
 import Title from "./components/Title";
 import Slides from "./components/Slides";
+import Task from "./components/Task";
+
+import MatchTheColumns from "./components/tasks/MatchTheColumns";
+import TaskX from "./components/tasks/TaskX";
+
 import { v4 as uuidv4 } from "uuid"; //unique id for map key https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
 
 function App() {
@@ -166,6 +170,13 @@ function App() {
 
   const handleSelectChange = (event) => {
     const selectedOption = event.target.value;
+    switch (selectedOption) {
+      case "match-the-columns":
+        break;
+
+      default:
+        break;
+    }
     setSelectedTask(selectedOption); // Update the selected task in the state
   };
 
@@ -191,36 +202,20 @@ function App() {
           removeSlide={removeSlide}
           maxSlides={maxSlides}
         ></Slides>
-        <section>
-          <h2>
-            4. Task settings <span aria-label="required">*</span>
-          </h2>
-          <p>
-            This is the minigame that the students will play to finish the task.
-          </p>
-          <p>Please select a task type using the dropdown menu below.</p>
-          <label htmlFor="task-type">
-            <select
-              name="task-type"
-              id="task-type"
-              value={selectedTask}
-              onChange={handleSelectChange}
-            >
-              <option value="match-the-columns">Match the Columns</option>
-              <option value="tic-tac-toe">Tic-Tac-Toe</option>
-              <option value="task-x">Task X</option>
-            </select>
-            <p>Selected option: {selectedTask}</p>
-          </label>
-          <Task
+        <Task
+          selectedTask={selectedTask}
+          handleSelectChange={handleSelectChange}
+        >
+          <MatchTheColumns
             selectedOption={selectedTask}
             inputs={inputs}
             maxOptions={maxOptions}
             handleOptionsChange={handleOptionsChange}
             handleAddOption={handleAddOption}
             removeOption={removeOption}
-          ></Task>
-        </section>
+          ></MatchTheColumns>
+          <TaskX value={"testi"}></TaskX>
+        </Task>
         <button type="submit">Submit/Continue/Preview</button>
       </form>
 

@@ -61,7 +61,7 @@ body {
   display: flex;
 }
 
-h1 {
-
+li {
+  display: flex;
 }
 

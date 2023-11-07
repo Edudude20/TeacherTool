@@ -31,8 +31,10 @@ function App() {
     options: [
       {
         draggableValue: "",
+        draggableDefinition: "",
         columnEntryValue: "",
         id: uuidv4(),
+        isFalseMatch: false,
       },
     ],
   });
@@ -69,8 +71,35 @@ function App() {
       //Create a new empty option object
       const optionObject = {
         draggableValue: "",
+        draggableDefinition: "",
         columnEntryValue: "",
         id: uuidv4(), //generate a unique ID
+        isFalseMatch: false,
+      };
+      //Using functional update form of State:
+      //spread the properties of the "previous" inputs object and update the options array with a new object
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        options: [...options, optionObject],
+      }));
+    } else {
+      alert(`Max option limit acquired!`);
+    }
+  };
+  //Handles adding a new option object
+  const handleAddFalseMatch = (event) => {
+    event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
+    const { options } = inputs; // Destructure the 'options' property from the 'inputs' object
+    const optionAmount = options.length; //How many options in the options array
+
+    if (optionAmount < maxOptions) {
+      console.log("Add option button clicked", event.target);
+      //Create a new empty option object
+      const optionObject = {
+        draggableValue: "",
+        draggableDefinition: "",
+        id: uuidv4(), //generate a unique ID
+        isFalseMatch: true,
       };
       //Using functional update form of State:
       //spread the properties of the "previous" inputs object and update the options array with a new object
@@ -229,6 +258,7 @@ function App() {
             maxOptions={maxOptions}
             handleOptionsChange={handleOptionsChange}
             handleAddOption={handleAddOption}
+            handleAddFalseMatch={handleAddFalseMatch}
             removeOption={removeOption}
           ></MatchTheColumns>
           <TaskX value={"testi"}></TaskX>

@@ -22,7 +22,7 @@ const Slides = (props) => {
             <label htmlFor="slide">
               <textarea
                 name="slideValue"
-                id="slide"
+                id="slide" //TODO what is id and where to use it?
                 cols="30"
                 rows="10"
                 maxLength={1000}

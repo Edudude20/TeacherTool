@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Title from "./components/Title";
 import Slides from "./components/Slides";
 import Task from "./components/Task";
-import Button from './components/Button';
+import Button from "./components/Button";
 
 import MatchTheColumns from "./components/tasks/MatchTheColumns";
 import TaskX from "./components/tasks/TaskX";
@@ -150,7 +150,6 @@ function App() {
 
   //Handles input of the slides (2)
   const handleSlideChange = (event, index) => {
-
     // Create a shallow copy of the inputs object
     const updatedInputs = { ...inputs };
 
@@ -196,6 +195,18 @@ function App() {
 
   return (
     <>
+    <header></header>
+      <h1>EduVerse TeacherTool</h1>
+      <h3>Description of this tool</h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel nisl
+        dui. Sed imperdiet vel purus et dictum. Curabitur eu elit risus. In et
+        sapien sit amet justo consequat iaculis. Phasellus in mauris purus. Nunc
+        nec dapibus neque, facilisis egestas mauris. Sed efficitur tortor semper
+        risus mattis tincidunt. Nam a justo consectetur, elementum tellus sit
+        amet, pharetra elit.
+      </p>
+      <Button label="Click on this button to start the tutorial!" className="tutorial-button"></Button>
       <p>
         Required fields are followed by <span aria-label="required">*</span>
       </p>
@@ -222,7 +233,12 @@ function App() {
           ></MatchTheColumns>
           <TaskX value={"testi"}></TaskX>
         </Task>
-        <Button type={"submit"} label="Submit/Continue/Preview" handleClick={handleSubmit} className={"submit-button"}></Button>
+        <Button
+          type={"submit"}
+          label="Submit/Continue/Preview"
+          handleClick={handleSubmit}
+          className={"submit-button"}
+        ></Button>
       </form>
 
       <footer></footer>

@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
+import Button from "./Button";
 
 const Slides = (props) => {
-  const { slides, handleAddSlide, handleSlideChange, removeSlide, maxSlides } = props;
+  const { slides, handleAddSlide, handleSlideChange, removeSlide, maxSlides } = props; //Destructure from props
   const isSlidesDisabled = slides.length >= maxSlides; //deactivate "add slides" button if max limit is reached
 
   return (
@@ -15,6 +16,7 @@ const Slides = (props) => {
         the task.
       </p>
       <ol>
+      {/* Map the items in the array to display */}
         {slides.map((slide, index) => (
           <div key={slide.id}>
             <label htmlFor="slide">
@@ -28,7 +30,7 @@ const Slides = (props) => {
                 value={slide.slideValue}
                 onChange={(event) => handleSlideChange(event, index)}
               ></textarea>
-              <button onClick={() => removeSlide(index)}>remove</button>
+              <Button handleClick={() => removeSlide(index)} label="Remove" className="remove-button"></Button>
             </label>
           </div>
         ))}
@@ -36,12 +38,11 @@ const Slides = (props) => {
       <p>
         Slides {slides.length}/{maxSlides}
       </p>
+      {/* Render the disabled button if the value is true (aka. max number is achieved), otherwise render the normal button */}
       {isSlidesDisabled ? (
-        <button className="disabled" disabled>
-          Add slide
-        </button>
+        <Button label="Can't add anymore slides" className="add-button-disabled" isDisabled={isSlidesDisabled}></Button>
       ) : (
-        <button onClick={handleAddSlide}>Add slide</button>
+        <Button handleClick={handleAddSlide} label="Add slide" className="add-button"></Button>
       )}
     </section>
   );

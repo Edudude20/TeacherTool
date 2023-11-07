@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import Button from "../Button";
 const MatchTheColumns = (props) => {
-  //console.log(props);
+  //TODO add comments
   const {
     inputs,
     maxOptions,
@@ -45,7 +45,7 @@ const MatchTheColumns = (props) => {
       </p>
 
       {isOptionsDisabled ? (
-        <Button label="Add option" className="add-button-disabled" isDisabled={isOptionsDisabled}></Button>
+        <Button label="Can't add anymore options" className="add-button-disabled" isDisabled={isOptionsDisabled}></Button>
       ) : (
         <Button handleClick={handleAddOption} label="Add option" className="add-button"></Button>
       )}

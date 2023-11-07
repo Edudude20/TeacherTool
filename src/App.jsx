@@ -58,7 +58,7 @@ function App() {
     //     .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected
   }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
 
-  //#region Input handling functions
+  //Handles adding a new option object
   const handleAddOption = (event) => {
     event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
     const { options } = inputs; // Destructure the 'options' property from the 'inputs' object
@@ -83,6 +83,7 @@ function App() {
     }
   };
 
+  //Handles adding a new slide object
   const handleAddSlide = (event) => {
     event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
     const { slides } = inputs; // Destructure the 'slides' property from the 'inputs' object
@@ -94,8 +95,7 @@ function App() {
         id: uuidv4(), //generate a unique ID
         slideValue: "",
       };
-      //Using functional update form of State:
-      //spread the properties of the "previous" inputs object and update the options array with a new object
+      //spread the properties of the "previous" state object and update the options array with a new state object
       setInputs((prevInputs) => ({
         ...prevInputs,
         slides: [...slides, slideObject],
@@ -105,26 +105,32 @@ function App() {
     }
   };
 
-  //TODO: add comment on how this works
+  //Handles the removal of a slide
   const removeOption = (optionIndex) => {
+    //Require confirmation of the removal to avoid accidents
     if (window.confirm(`delete option ${optionIndex}`)) {
+      // Create a new state object based on the previous state (prevInputs) with the slide removed
       setInputs((prevInputs) => ({
-        ...prevInputs,
-        options: prevInputs.options.filter((_, index) => index !== optionIndex),
-      }));
-    }
-  };
-  //TODO: add comment on how this works
-  const removeSlide = (slideIndex) => {
-    console.log("remove slide number:", slideIndex);
-    if (window.confirm(`delete option ${slideIndex}`)) {
-      setInputs((prevInputs) => ({
-        ...prevInputs,
-        slides: prevInputs.slides.filter((_, index) => index !== slideIndex),
+        ...prevInputs, // Spread the properties of the previous state object
+        options: prevInputs.options.filter((_, index) => index !== optionIndex), // Filter out the option at the specified index, _ = not in use
       }));
     }
   };
 
+  //Handles the removal of a slide
+  const removeSlide = (slideIndex) => {
+    //Require confirmation of the removal to avoid accidents
+    if (window.confirm(`delete option ${slideIndex}`)) {
+      // Create a new state object based on the previous state (prevInputs) with the slide removed
+      setInputs((prevInputs) => ({
+        ...prevInputs, // Spread the properties of the previous state object
+        slides: prevInputs.slides.filter((_, index) => index !== slideIndex), // Filter out the slide at the specified index
+      }));
+    }
+  };
+
+  //Handles input of the options (3)
+  //TODO check if options (3) and slides (2) handlers could be merged
   const handleOptionsChange = (event, index) => {
     // Create a shallow copy of the inputs object
     const updatedInputs = { ...inputs };
@@ -142,8 +148,9 @@ function App() {
     //By following this approach, you are maintaining immutability and ensuring that state updates correctly trigger re-renders. (thanks ChatGPT)
   };
 
+  //Handles input of the slides (2)
   const handleSlideChange = (event, index) => {
-    console.log(event.target.name);
+
     // Create a shallow copy of the inputs object
     const updatedInputs = { ...inputs };
 
@@ -160,6 +167,7 @@ function App() {
     //By following this approach, you are maintaining immutability and ensuring that state updates correctly trigger re-renders. (thanks ChatGPT)
   };
 
+  //Handles the input of the title (1)
   const handleFormChange = (event) => {
     // Create a shallow copy of the inputs object
     const updatedInputs = { ...inputs };
@@ -171,19 +179,20 @@ function App() {
     setInputs(updatedInputs);
   };
 
+  //Handles the selected task type
   const handleSelectChange = (event) => {
     const selectedOption = event.target.value;
     setSelectedTask(selectedOption); // Update the selected task in the state
   };
 
+  //Handles what data needs to be sent and where
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
 
     console.log("handle submit activated!");
     console.log(`The data you submitted: `, inputs);
     alert(`The data you submitted: `, inputs);
   };
-  //#endregion
 
   return (
     <>

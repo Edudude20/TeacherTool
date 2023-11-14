@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import Notification from './Notification';
 
 const Title = (props) => {
     const { inputs, handleFormChange } = props;

@@ -1,16 +1,55 @@
 import "./App.css";
 //import taskService from "./services/task";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
+
 import Title from "./components/Title";
 import Slides from "./components/Slides";
 import Task from "./components/Task";
 import Button from "./components/Button";
+import Notification from "./components/Notification";
 
 import MatchTheColumns from "./components/tasks/MatchTheColumns";
 import TaskX from "./components/tasks/TaskX";
 
 import { v4 as uuidv4 } from "uuid"; //unique id for map key https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
+import { ShepherdTour, ShepherdTourContext } from "react-shepherd";
+
+const tourOptions = {
+  defaultStepOptions: {
+    cancelIcon: {
+      enabled: true,
+    },
+  },
+  useModalOverlay: true,
+};
+
+const newSteps = [
+  {
+    id: "intro",
+    attachTo: {},
+    title: "Creating a Shepherd Tour",
+    text: `Creating a Shepherd tour is easy. too!\
+    Just create a \`Tour\` instance, and add as many steps as you want.`,
+    buttons: [
+      {
+        classes: "shepherd-button-secondary",
+        text: "Exit",
+        type: "cancel",
+      },
+      {
+        classes: "shepherd-button-primary",
+        text: "Back",
+        type: "back",
+      },
+      {
+        classes: "shepherd-button-primary",
+        text: "Next",
+        type: "next",
+      },
+    ],
+  },
+];
 
 function App() {
   //#region VARIABLES
@@ -39,6 +78,8 @@ function App() {
     ],
   });
   const [selectedTask, setSelectedTask] = useState("match-the-columns");
+  const [message, setMessage] = useState(null);
+  const [messageType, setMessageType] = useState(null);
   //#endregion
 
   useEffect(() => {
@@ -216,6 +257,19 @@ function App() {
   //Handles what data needs to be sent and where
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
+    // Check if any of the values is empty in slides
+    const isSlidesValid = inputs.slides.every(
+      (slide) => slide.slideValue.trim() !== ""
+    );
+
+    console.log(isSlidesValid);
+
+    // Check if all conditions are met
+    if (!isSlidesValid) {
+      // Handle the case where any value is empty (show an error, prevent submission, etc.)
+      alert("All fields must be filled!");
+      return;
+    }
 
     console.log("handle submit activated!");
     console.log(`The data you submitted: `, inputs);
@@ -224,52 +278,62 @@ function App() {
 
   return (
     <>
-    <header></header>
-      <h1>EduVerse TeacherTool</h1>
-      <h3>Description of this tool</h3>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel nisl
-        dui. Sed imperdiet vel purus et dictum. Curabitur eu elit risus. In et
-        sapien sit amet justo consequat iaculis. Phasellus in mauris purus. Nunc
-        nec dapibus neque, facilisis egestas mauris. Sed efficitur tortor semper
-        risus mattis tincidunt. Nam a justo consectetur, elementum tellus sit
-        amet, pharetra elit.
-      </p>
-      <Button label="Click on this button to start the tutorial!" className="tutorial-button"></Button>
-      <p>
-        Required fields are followed by <span aria-label="required">*</span>
-      </p>
-      <form>
-        <Title inputs={inputs} handleFormChange={handleFormChange}></Title>
-        <Slides
-          slides={inputs.slides}
-          handleSlideChange={handleSlideChange}
-          handleAddSlide={handleAddSlide}
-          removeSlide={removeSlide}
-          maxSlides={maxSlides}
-        ></Slides>
-        <Task
-          selectedTask={selectedTask}
-          handleSelectChange={handleSelectChange}
-        >
-          <MatchTheColumns
-            selectedOption={selectedTask}
-            inputs={inputs}
-            maxOptions={maxOptions}
-            handleOptionsChange={handleOptionsChange}
-            handleAddOption={handleAddOption}
-            handleAddFalseMatch={handleAddFalseMatch}
-            removeOption={removeOption}
-          ></MatchTheColumns>
-          <TaskX value={"testi"}></TaskX>
-        </Task>
+      <ShepherdTour steps={newSteps} tourOptions={tourOptions}>
+        <header></header>
+        <Button label="Start tour!" className="tutorial-button"></Button>
+        <h1 className="header">EduVerse TeacherTool</h1>
+        <h3>Description of this tool</h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel
+          nisl dui. Sed imperdiet vel purus et dictum. Curabitur eu elit risus.
+          In et sapien sit amet justo consequat iaculis. Phasellus in mauris
+          purus. Nunc nec dapibus neque, facilisis egestas mauris. Sed efficitur
+          tortor semper risus mattis tincidunt. Nam a justo consectetur,
+          elementum tellus sit amet, pharetra elit.
+        </p>
         <Button
-          type={"submit"}
-          label="Submit/Continue/Preview"
-          handleClick={handleSubmit}
-          className={"submit-button"}
+          label="Click on this button to start the tutorial!"
+          className="tutorial-button"
         ></Button>
-      </form>
+        <p>
+          Required fields are followed by <span aria-label="required">*</span>
+        </p>
+        <form>
+          <Notification
+            message={message}
+            messageType={messageType}
+          ></Notification>
+          <Title inputs={inputs} handleFormChange={handleFormChange}></Title>
+          <Slides
+            slides={inputs.slides}
+            handleSlideChange={handleSlideChange}
+            handleAddSlide={handleAddSlide}
+            removeSlide={removeSlide}
+            maxSlides={maxSlides}
+          ></Slides>
+          <Task
+            selectedTask={selectedTask}
+            handleSelectChange={handleSelectChange}
+          >
+            <MatchTheColumns
+              selectedOption={selectedTask}
+              inputs={inputs}
+              maxOptions={maxOptions}
+              handleOptionsChange={handleOptionsChange}
+              handleAddOption={handleAddOption}
+              handleAddFalseMatch={handleAddFalseMatch}
+              removeOption={removeOption}
+            ></MatchTheColumns>
+            <TaskX value={"testi"}></TaskX>
+          </Task>
+          <Button
+            type={"submit"}
+            label="Submit/Continue/Preview"
+            handleClick={handleSubmit}
+            className={"submit-button"}
+          ></Button>
+        </form>
+      </ShepherdTour>
 
       <footer></footer>
     </>

@@ -6,39 +6,41 @@
 |  🐸 Returns:  JSX
 *-------------------------------------------------------------------*/
 
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 import Input from "./Input";
 import { FormProvider, useForm } from "react-hook-form";
-import { useState } from "react";
+//import { useState } from "react";
 import Button from "./Button";
 
 const Form = () => {
-  const formMethods = useForm();
+  const formMethods = useForm({
+    // by setting validateCriteriaMode to 'all',
+    // all validation errors for single field will display at once
+    criteriaMode: "all",
+    // mode: "onSubmit",
+  });
 
-//   console.log(formMethods.watch("title")) // watch input value by passing the name of it
+  //   console.log(formMethods.watch("title")) // watch input value by passing the name of it
 
-  const onSubmit = (data, e) => {
-    // e.preventDefault();
-    console.log('submit button clicked');
-    console.log(data, e)}
+  const onSubmit = (data) => {
+    console.log("submit button clicked");
+    console.log('data:', data);
 
-    const onError = (errors, e) => console.log(errors, e)
+  };
+
+  const onError = (errors, e) => console.log(errors, e);
 
   return (
-    // use spread operator to pass all the useForm methods to the FormProvider
+    // use spread operator to pass all the useForm methods to the FormProvider context
     <FormProvider {...formMethods}>
       {/* // "handleSubmit" will validate your inputs before invoking "onSubmit" */}
       <form onSubmit={formMethods.handleSubmit(onSubmit, onError)}>
-        <div className="">
-          <div className="">
-            <Input
-              label="title"
-              type="text"
-              id="title"
-              placeholder="type your title..."
-            />
-          </div>
-        </div>
+        <Input
+          label="title"
+          type="text"
+          id="title"
+          placeholder="type your title..."
+        />
         <div>
           <Button
             label="Submit Form"

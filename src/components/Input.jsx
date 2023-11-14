@@ -6,24 +6,10 @@
 |
 |  🐸 Returns:  JSX
 *-------------------------------------------------------------------*/
-
-import React from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
-const findInputError = (errors, name) => {
-  const filtered = Object.keys(errors)
-    .filter((key) => key.includes(name))
-    .reduce((cur, key) => {
-      return Object.assign(cur, { error: errors[key] });
-    }, {});
-  return filtered;
-};
-
-const isFormInvalid = (err) => {
-  if (Object.keys(err).length > 0) return true;
-  return false;
-};
 
 const Input = ({ label, type, id, placeholder }) => {
   // Access the form context. useFormContext is intended to be used in deeply nested structures, where it would become inconvenient to pass the context as a prop.
@@ -33,8 +19,6 @@ const Input = ({ label, type, id, placeholder }) => {
     formState: { errors },
   } = useFormContext();
 
-  const inputError = findInputError(errors, label);
-  const isInvalid = isFormInvalid(inputError);
 
   return (
     <div className="">
@@ -52,22 +36,27 @@ const Input = ({ label, type, id, placeholder }) => {
             {...register(label, {
               required: {
                 value: true,
-                message: "required",
+                message: "this is required",
               },
-              minLength: 6,
+              maxLength: {
+                value: 10,
+                message: "This input exceed maxLength.",
+              },
             })}
           />
           {/* errors will return when field validation fails  */}
-          {errors.label && <span>This field is required</span>}
+          {/* TODO: handle multiple error messages */}
+          <ErrorMessage
+            errors={errors}
+            name={label}
+            render={({ message }) => <p>{message}</p>}
+          ></ErrorMessage>
         </label>
       </div>
     </div>
   );
 };
 
-const InputError = ({ message }) => {
-  <div className="">{message}</div>;
-};
 
 Input.propTypes = {};
 

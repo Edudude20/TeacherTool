@@ -7,7 +7,6 @@ import Title from "./components/Title";
 import Slides from "./components/Slides";
 import Task from "./components/Task";
 import Button from "./components/Button";
-import Notification from "./components/Notification";
 
 import MatchTheColumns from "./components/tasks/MatchTheColumns";
 import TaskX from "./components/tasks/TaskX";
@@ -42,8 +41,6 @@ function App() {
     ],
   });
   const [selectedTask, setSelectedTask] = useState("match-the-columns");
-  const [message, setMessage] = useState(null);
-  const [messageType, setMessageType] = useState(null);
 
 
   //validation
@@ -256,10 +253,6 @@ function App() {
           Required fields are followed by <span aria-label="required">*</span>
         </p>
         <form className="task-form">
-          <Notification
-            message={message}
-            messageType={messageType}
-          ></Notification>
           <Title inputs={inputs} handleFormChange={handleTitleChange}></Title>
           <Slides
             slides={inputs.slides}

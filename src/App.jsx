@@ -1,6 +1,6 @@
 import "./App.css";
 //import taskService from "./services/task";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import Title from "./components/Title";
@@ -13,43 +13,7 @@ import MatchTheColumns from "./components/tasks/MatchTheColumns";
 import TaskX from "./components/tasks/TaskX";
 
 import { v4 as uuidv4 } from "uuid"; //unique id for map key https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
-import { ShepherdTour, ShepherdTourContext } from "react-shepherd";
-
-const tourOptions = {
-  defaultStepOptions: {
-    cancelIcon: {
-      enabled: true,
-    },
-  },
-  useModalOverlay: true,
-};
-
-const newSteps = [
-  {
-    id: "intro",
-    attachTo: {},
-    title: "Creating a Shepherd Tour",
-    text: `Creating a Shepherd tour is easy. too!\
-    Just create a \`Tour\` instance, and add as many steps as you want.`,
-    buttons: [
-      {
-        classes: "shepherd-button-secondary",
-        text: "Exit",
-        type: "cancel",
-      },
-      {
-        classes: "shepherd-button-primary",
-        text: "Back",
-        type: "back",
-      },
-      {
-        classes: "shepherd-button-primary",
-        text: "Next",
-        type: "next",
-      },
-    ],
-  },
-];
+import Form from "./components/Form";
 
 function App() {
   //#region VARIABLES
@@ -80,6 +44,10 @@ function App() {
   const [selectedTask, setSelectedTask] = useState("match-the-columns");
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState(null);
+
+
+  //validation
+  const [submitted, setSubmitted] = useState(false);
   //#endregion
 
   useEffect(() => {
@@ -237,7 +205,7 @@ function App() {
   };
 
   //Handles the input of the title (1)
-  const handleFormChange = (event) => {
+  const handleTitleChange = (event) => {
     // Create a shallow copy of the inputs object
     const updatedInputs = { ...inputs };
 
@@ -257,29 +225,18 @@ function App() {
   //Handles what data needs to be sent and where
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent the default behavior of a form submission, which would cause a page refresh
-    // Check if any of the values is empty in slides
-    const isSlidesValid = inputs.slides.every(
-      (slide) => slide.slideValue.trim() !== ""
-    );
 
-    console.log(isSlidesValid);
-
-    // Check if all conditions are met
-    if (!isSlidesValid) {
-      // Handle the case where any value is empty (show an error, prevent submission, etc.)
-      alert("All fields must be filled!");
-      return;
-    }
+    //TODO: add form validation error messages
+    setSubmitted(true);
 
     console.log("handle submit activated!");
     console.log(`The data you submitted: `, inputs);
-    alert(`The data you submitted: `, inputs);
   };
 
   return (
     <>
-      <ShepherdTour steps={newSteps} tourOptions={tourOptions}>
         <header></header>
+        <Form></Form>
         <Button label="Start tour!" className="tutorial-button"></Button>
         <h1 className="header">EduVerse TeacherTool</h1>
         <h3>Description of this tool</h3>
@@ -298,12 +255,12 @@ function App() {
         <p>
           Required fields are followed by <span aria-label="required">*</span>
         </p>
-        <form>
+        <form className="task-form">
           <Notification
             message={message}
             messageType={messageType}
           ></Notification>
-          <Title inputs={inputs} handleFormChange={handleFormChange}></Title>
+          <Title inputs={inputs} handleFormChange={handleTitleChange}></Title>
           <Slides
             slides={inputs.slides}
             handleSlideChange={handleSlideChange}
@@ -333,7 +290,7 @@ function App() {
             className={"submit-button"}
           ></Button>
         </form>
-      </ShepherdTour>
+        {submitted && <div className='success-message'>Success! Thank you for submitting</div>}
 
       <footer></footer>
     </>

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 
 const Button = (props) => {
   const { handleClick, label, className, isDisabled } = props;
+  
   return (
     <>
       <button onClick={handleClick} className={className} disabled={isDisabled}>{label}</button>

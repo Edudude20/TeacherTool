@@ -21,6 +21,7 @@ const Title = (props) => {
             value={inputs.title}
             onChange={(event) => handleFormChange(event)}
           />
+          <span id="title-error">Please enter a title</span>
         </label>
       </section>
     );

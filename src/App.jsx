@@ -1,8 +1,6 @@
 import "./App.css";
 //import taskService from "./services/task";
 import { useEffect, useContext } from "react";
-
-import Button from "./components/Button";
 import Notification from "./components/Notification";
 
 import { ShepherdTour, ShepherdTourContext } from "react-shepherd";

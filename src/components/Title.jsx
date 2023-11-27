@@ -23,8 +23,8 @@ const Title = () => {
             message: "this is required",
           },
           maxLength: {
-            value: 10, //TODO: change this
-            message: "Maximum characters 10",
+            value: 70, //TODO: change this
+            message: "Maximum characters 100",
           },
         }}
       ></Input>

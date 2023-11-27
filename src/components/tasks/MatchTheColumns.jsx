@@ -10,15 +10,15 @@ const MatchTheColumns = () => {
   });
   // Check if the "Add Option" button should be disabled
   const isOptionsDisabled = fields.length >= maxOptions;
-  const optionMaxInputLimit = 30;
-  const definitionMaxInputLimit = 50;
+  const optionMaxInputLimit = 70;
+  const definitionMaxInputLimit = 100;
   const options_validation = {
     required: {
       value: true,
       message: "This is required",
     },
     maxLength: {
-      value: optionMaxInputLimit,
+      value: 70,
       message: `Maximum is ${optionMaxInputLimit} characters`,
     },
   };

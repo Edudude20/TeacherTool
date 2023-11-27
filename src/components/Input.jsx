@@ -9,6 +9,21 @@ https://www.freecodecamp.org/news/how-to-validate-forms-in-react/
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { useState } from "react";
+
+//Character counter component, turn text red if it goes over maxmimum character limit
+const CharCounter = ({ current, max }) => {
+  return (
+    <span style={{ color: current > max ? "red" : "black" }}>
+      {`${current}/${max}`}
+    </span>
+  );
+};
+
+CharCounter.propTypes = {
+  current: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+};
 
 const Input = ({
   label,
@@ -25,6 +40,14 @@ const Input = ({
     register,
     formState: { errors },
   } = useFormContext();
+  const [charCount, setCharCount] = useState(0);
+
+  const maxLength = validation.maxLength.value;
+  // console.log('max lenght', maxLength);
+  const handleInputChange = (e) => {
+    const inputText = e.target.value;
+    setCharCount(inputText.length);
+  };
 
   return (
     <div className="">
@@ -38,6 +61,8 @@ const Input = ({
             cols={"30"}
             rows={"10"}
             {...register(`${name}`, validation)}
+            onChange={handleInputChange}
+            maxLength={maxLength}
           ></textarea>
         ) : (
           <input
@@ -49,7 +74,14 @@ const Input = ({
             // include validation with required or other standard HTML validation rules
             // label is the name of the input, which will be used as a key within your form context to access the input's value or retrieve its error message
             {...register(name, validation)}
+            onChange={handleInputChange}
+            maxLength={maxLength}
           />
+        )}
+        {/* The char counter only renders if the maxLength prop is provided */}
+        {maxLength !== undefined && (
+          /* The CharCount component receives the current string length and the max length supported for this field */
+          <CharCounter current={charCount} max={maxLength} />
         )}
         {/* errors will return when field validation fails  */}
         {/* TODO: handle multiple error messages */}

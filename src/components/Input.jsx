@@ -33,6 +33,7 @@ const Input = ({
   name,
   validation,
   multiline,
+  disabled,
 }) => {
   // Access the form context. useFormContext is intended to be used in deeply nested structures, where it would become inconvenient to pass the context as a prop.
   // Retrieve the register function to handle validation
@@ -42,8 +43,10 @@ const Input = ({
   } = useFormContext();
   const [charCount, setCharCount] = useState(0);
 
-  const maxLength = validation.maxLength.value;
-  // console.log('max lenght', maxLength);
+  // checks if validation is defined and if maxLength is defined within it. If either validation or maxLength is undefined, 
+  //it won't throw an error and will return undefined.
+  const maxLength = validation?.maxLength?.value;
+
   const handleInputChange = (e) => {
     const inputText = e.target.value;
     setCharCount(inputText.length);
@@ -76,6 +79,7 @@ const Input = ({
             {...register(name, validation)}
             onChange={handleInputChange}
             maxLength={maxLength}
+            disabled={disabled}
           />
         )}
         {/* The char counter only renders if the maxLength prop is provided */}
@@ -92,7 +96,7 @@ const Input = ({
             console.log("messages", messages);
             return messages
               ? Object.entries(messages).map(([type, message]) => (
-                  <p key={type}>{message}</p>
+                  <p key={type} style={{ color: "red"}}>{message}</p>
                 ))
               : null;
           }}
@@ -108,7 +112,7 @@ Input.propTypes = {
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  validation: PropTypes.object.isRequired,
+  validation: PropTypes.object,
   multiline: PropTypes.bool.isRequired,
 };
 

@@ -52,10 +52,9 @@ const MatchTheColumns = () => {
                   type="text"
                   id={option.id}
                   name={`options.${index}.columnEntryValue`}
-                  placeholder="Empty (false match)"
-                  validation={options_validation}
+                  placeholder="Column Entry (false match)"
                   multiline={false}
-                  disabled
+                  disabled={true}
                 ></Input>
                 <Input
                   label="draggable entry"
@@ -84,7 +83,7 @@ const MatchTheColumns = () => {
                   type="text"
                   id={option.id}
                   name={`options.${index}.columnEntryValue`}
-                  placeholder="Empty (false match)"
+                  placeholder="Column Entry"
                   validation={options_validation}
                   multiline={false}
                 ></Input>
@@ -135,7 +134,11 @@ const MatchTheColumns = () => {
             className="add-button"
           ></Button>
           <Button
-            handleClick={() => append({})} //TODO fill this too
+            handleClick={() =>
+              append({
+                isFalseMatch: true,
+              })
+            } //TODO fill this too
             label="Add false match"
             className="add-button"
           ></Button>

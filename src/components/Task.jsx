@@ -1,6 +1,16 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
 
-const Task = ({ selectedTask, handleSelectChange, children }) => {
+const Task = ({ children }) => {
+
+  const [selectedTask, setSelectedTask] = useState("match-the-columns");
+
+  //Handles the selected task type
+  const handleSelectChange = (event) => {
+    const selectedOption = event.target.value;
+    setSelectedTask(selectedOption); // Update the selected task in the state
+  };
+
   //Destructure the different task components from children
   const [MatchTheColumns, TaskX] = children; 
   let renderedComponent = null;
@@ -20,7 +30,7 @@ const Task = ({ selectedTask, handleSelectChange, children }) => {
   return (
     <section>
       <h2>
-        4. Task settings <span aria-label="required">*</span>
+        Task settings <span aria-label="required">*</span>
       </h2>
       <p>
         This is the minigame that the students will play to finish the task.
@@ -43,8 +53,6 @@ const Task = ({ selectedTask, handleSelectChange, children }) => {
   );
 };
 Task.propTypes = {
-  selectedTask: PropTypes.string.isRequired,
-  handleSelectChange: PropTypes.func.isRequired,
   children: PropTypes.array.isRequired,
 };
 

@@ -1,86 +1,116 @@
-import PropTypes from "prop-types";
 import Button from "../Button";
-const MatchTheColumns = (props) => {
-  //TODO add comments
-  const {
-    inputs,
-    maxOptions,
-    handleOptionsChange,
-    handleAddOption,
-    removeOption,
-    handleAddFalseMatch,
-  } = props;
+import { useFieldArray } from "react-hook-form";
+import Input from "../Input";
+
+const MatchTheColumns = () => {
+  //Constants
+  const maxOptions = 10;
+  const { fields, append, remove } = useFieldArray({
+    name: "options",
+  });
   // Check if the "Add Option" button should be disabled
-  const isOptionsDisabled = inputs.options.length >= maxOptions;
+  const isOptionsDisabled = fields.length >= maxOptions;
   const optionMaxInputLimit = 30;
+  const definitionMaxInputLimit = 50;
+  const options_validation = {
+    required: {
+      value: true,
+      message: "This is required",
+    },
+    maxLength: {
+      value: optionMaxInputLimit,
+      message: `Maximum is ${optionMaxInputLimit} characters`,
+    },
+  };
+
+  const definition_validation = {
+    required: {
+      value: true,
+      message: "This is required",
+    },
+    maxLength: {
+      value: definitionMaxInputLimit,
+      message: `Maximum is ${definitionMaxInputLimit} characters`,
+    },
+  };
+
+  // if you want to control your fields with watch
+  // const watchResult = watch("test");
+  // console.log(watchResult);
+
   return (
     <fieldset>
-      <legend>Match-The-Columns options</legend>
+      <legend>Match-The-Columns</legend>
       <ol>
         {/* Create a list item from every object in the array */}
-        {inputs.options.map((option, index) => (
+        {fields.map((option, index) => (
           <li key={option.id}>
             {option.isFalseMatch ? (
               <>
-                <input
+                <Input
+                  label="column entry"
                   type="text"
-                  name="columnEntryValue"
+                  id={option.id}
+                  name={`options.${index}.columnEntryValue`}
                   placeholder="Empty (false match)"
+                  validation={options_validation}
+                  multiline={false}
                   disabled
-                />
-                <input
+                ></Input>
+                <Input
+                  label="draggable entry"
                   type="text"
-                  name="draggableValue"
+                  id={`draggable${index}`}
+                  name={`options.${index}.draggableValue`}
                   placeholder="Draggable"
-                  value={option.draggableValue}
-                  onChange={(event) => handleOptionsChange(event, index)}
-                  maxLength={optionMaxInputLimit}
-                />
+                  validation={options_validation}
+                  multiline={false}
+                ></Input>
                 <p>&rarr;</p>
-                <textarea
-                  name="draggableDefinition"
-                  id=""
-                  cols="30"
-                  rows="2"
-                  maxLength={100}
+                <Input
+                  label="draggable definition"
+                  type="text"
+                  id={`definition${index}`}
+                  name={`options.${index}.draggableDefinition`}
                   placeholder="Draggable definition text here"
-                  value={option.draggableDefinition}
-                  onChange={(event) => handleOptionsChange(event, index)}
-                ></textarea>
+                  validation={definition_validation}
+                  multiline={true}
+                ></Input>
               </>
             ) : (
               <>
-                <input
+                <Input
+                  label="column entry"
                   type="text"
-                  name="columnEntryValue"
-                  placeholder="Column Entry"
-                  value={option.columnEntryValue}
-                  onChange={(event) => handleOptionsChange(event, index)}
-                  maxLength={optionMaxInputLimit}
-                />
-                <input
+                  id={option.id}
+                  name={`options.${index}.columnEntryValue`}
+                  placeholder="Empty (false match)"
+                  validation={options_validation}
+                  multiline={false}
+                ></Input>
+                <Input
+                  label="draggable entry"
                   type="text"
-                  name="draggableValue"
+                  id={`draggable${index}`}
+                  name={`options.${index}.draggableValue`}
                   placeholder="Draggable"
-                  value={option.draggableValue}
-                  onChange={(event) => handleOptionsChange(event, index)}
-                  maxLength={optionMaxInputLimit}
-                />
+                  validation={options_validation}
+                  multiline={false}
+                ></Input>
                 <p>&rarr;</p>
-                <textarea
-                  name="draggableDefinition"
-                  id=""
-                  cols="30"
-                  rows="2"
-                  maxLength={100}
+                <Input
+                  label="draggable definition"
+                  type="text"
+                  id={`definition${index}`}
+                  name={`options.${index}.draggableDefinition`}
                   placeholder="Draggable definition text here"
-                  value={option.draggableDefinition}
-                  onChange={(event) => handleOptionsChange(event, index)}
-                ></textarea>
+                  validation={definition_validation}
+                  multiline={true}
+                ></Input>
               </>
             )}
             <Button
-              handleClick={() => removeOption(index)}
+              handleClick={() => remove(index)}
               label="Remove"
               className="remove-button"
             ></Button>
@@ -88,7 +118,7 @@ const MatchTheColumns = (props) => {
         ))}
       </ol>
       <p>
-        Options {inputs.options.length}/{maxOptions}
+        Options {fields.length}/{maxOptions}
       </p>
 
       {isOptionsDisabled ? (
@@ -100,12 +130,12 @@ const MatchTheColumns = (props) => {
       ) : (
         <>
           <Button
-            handleClick={handleAddOption}
+            handleClick={() => append({})} //TODO fill
             label="Add option"
             className="add-button"
           ></Button>
           <Button
-            handleClick={handleAddFalseMatch}
+            handleClick={() => append({})} //TODO fill this too
             label="Add false match"
             className="add-button"
           ></Button>
@@ -113,16 +143,6 @@ const MatchTheColumns = (props) => {
       )}
     </fieldset>
   );
-};
-
-MatchTheColumns.propTypes = {
-  selectedOption: PropTypes.string.isRequired,
-  inputs: PropTypes.object.isRequired,
-  maxOptions: PropTypes.number.isRequired,
-  handleOptionsChange: PropTypes.func.isRequired,
-  handleAddOption: PropTypes.func.isRequired,
-  removeOption: PropTypes.func.isRequired,
-  handleAddFalseMatch: PropTypes.func.isRequired,
 };
 
 export default MatchTheColumns;

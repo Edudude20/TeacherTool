@@ -57,11 +57,3 @@ button:focus-visible {
   }
 } */
 
-body {
-  display: flex;
-}
-
-li {
-  display: flex;
-}
-

@@ -81,6 +81,7 @@ function App() {
           purus. Nunc nec dapibus neque, facilisis egestas mauris. Sed efficitur
           tortor semper risus mattis tincidunt. Nam a justo consectetur,
           elementum tellus sit amet, pharetra elit.
+          {/* TODO: fill this uusing penpot */}
         </p>
         <TourButton></TourButton>
         <p>

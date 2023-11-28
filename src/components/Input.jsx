@@ -114,6 +114,7 @@ Input.propTypes = {
   name: PropTypes.string.isRequired,
   validation: PropTypes.object,
   multiline: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default Input;

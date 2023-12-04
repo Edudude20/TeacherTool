@@ -3,7 +3,7 @@ import Input from "./Input";
 import { useFieldArray } from "react-hook-form";
 
 const Slides = () => {
-  const maxSlides = 4;
+  const maxSlides = 3;
 
   const { fields, append, remove } = useFieldArray({
     name: "slides"

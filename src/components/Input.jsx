@@ -43,7 +43,7 @@ const Input = ({
   } = useFormContext();
   const [charCount, setCharCount] = useState(0);
 
-  // checks if validation is defined and if maxLength is defined within it. If either validation or maxLength is undefined, 
+  // checks if validation is defined and if maxLength is defined within it. If either validation or maxLength is undefined,
   //it won't throw an error and will return undefined.
   const maxLength = validation?.maxLength?.value;
 
@@ -55,6 +55,20 @@ const Input = ({
   return (
     <div className="">
       <label htmlFor={id} className="">
+        {/* errors will return when field validation fails  */}
+        <ErrorMessage
+          errors={errors}
+          name={name}
+          render={({ messages }) => {
+            return messages
+              ? Object.entries(messages).map(([type, message]) => (
+                  <p key={type} style={{ color: "red" }}>
+                    {message}
+                  </p>
+                ))
+              : null;
+          }}
+        ></ErrorMessage>
         {multiline ? (
           <textarea
             id={id}
@@ -87,20 +101,6 @@ const Input = ({
           /* The CharCount component receives the current string length and the max length supported for this field */
           <CharCounter current={charCount} max={maxLength} />
         )}
-        {/* errors will return when field validation fails  */}
-        {/* TODO: handle multiple error messages */}
-        <ErrorMessage
-          errors={errors}
-          name={name}
-          render={({ messages }) => {
-            console.log("messages", messages);
-            return messages
-              ? Object.entries(messages).map(([type, message]) => (
-                  <p key={type} style={{ color: "red"}}>{message}</p>
-                ))
-              : null;
-          }}
-        ></ErrorMessage>
       </label>
     </div>
   );

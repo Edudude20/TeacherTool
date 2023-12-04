@@ -15,9 +15,11 @@ import TaskX from "./tasks/TaskX";
 
 const Form = () => {
   const formMethods = useForm({
-    // by setting validateCriteriaMode to 'all',
-    // all validation errors for single field will display at once
-    // mode: "onSubmit",
+    //Validation strategy before submitting behaviour: validation is triggered on the blur event.
+    mode: "onBlur",
+    //Validation strategy after submitting behaviour.
+    reValidateMode: "onBlur",
+    //all validation errors for single field will display at once
     criteriaMode: "all",
     // defaultValues: {}; you can populate the fields by this attribute
     defaultValues: {
@@ -33,19 +35,21 @@ const Form = () => {
   //validation
   const [submitted, setSubmitted] = useState(false);
 
+  // "handleSubmit" will validate your inputs before invoking "onSubmit"
   const onSubmit = (data) => {
-    console.log("submit button clicked", event);
+    console.log("submit button clicked");
     console.log("data:", data);
+    formMethods.reset();
     setSubmitted(true);
   };
-
   const onError = (errors) => console.log("errors:", errors);
-
   return (
     // use spread operator to pass all the useForm methods to the FormProvider context
     <FormProvider {...formMethods}>
-      {/* // "handleSubmit" will validate your inputs before invoking "onSubmit" */}
-      <form onSubmit={formMethods.handleSubmit(onSubmit, onError)}>
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        noValidate //rely on react-hook-form
+      >
         <Title></Title>
         <Slides></Slides>
         <Task>
@@ -54,7 +58,7 @@ const Form = () => {
         </Task>
         <Button
           label="Submit Form"
-          handleClick={onSubmit}
+          handleClick={formMethods.handleSubmit(onSubmit, onError)}
           className="submit-button"
         ></Button>
       </form>

@@ -28,6 +28,8 @@ Acronyms by pi.ai:
  + multiple inputs: https://www.freecodecamp.org/news/build-dynamic-forms-in-react/
  + list key: https://medium.com/geekculture/reactjs-why-index-as-a-key-is-an-anti-pattern-4b9dc6ef0067
  + Form Usability Checklist: https://alistapart.com/article/sensibleforms/
+ + What CSS framework should I use? https://fullstackopen.com/en/part7/more_about_styles
+ https://2023.stateofcss.com/en-US/
 
 # React + Vite
 

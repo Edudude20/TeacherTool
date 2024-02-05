@@ -1,10 +1,30 @@
-/* Old code from initialization
+
+/*resetting defaults*/
+* {
+  margin: 0;
+  padding: 0;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
+
+/* dark theme preference*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: white;
+    background-color: black;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+/* Old code from initialization
 
 .logo {
   height: 6em;
@@ -41,5 +61,3 @@
 .read-the-docs {
   color: #888;
 } */
-
-

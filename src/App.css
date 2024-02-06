@@ -23,6 +23,10 @@ header {
   padding: 20px;
 }
 
+section {
+  margin: 20px 0;
+}
+
 /* dark theme preference*/
 @media (prefers-color-scheme: dark) {
   :root {

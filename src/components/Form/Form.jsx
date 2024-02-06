@@ -66,7 +66,7 @@ const Form = () => {
         <Button
           label="Submit Form"
           handleClick={formMethods.handleSubmit(onSubmit, onError)}
-          className="submit-button"
+          className={styles.submitButton}
         ></Button>
       </form>
       {submitted && (

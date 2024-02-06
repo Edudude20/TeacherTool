@@ -6,15 +6,27 @@
 }
 
 #root {
+}
+
+.intro {
   max-width: 1280px;
-  margin: 0 auto;
+  margin: 30px auto;
   padding: 2rem;
+}
+
+header {
+  background-color: #3055a6;
+  position: sticky;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+  padding: 20px;
 }
 
 /* dark theme preference*/
 @media (prefers-color-scheme: dark) {
   :root {
-    color: white;
+    color: hsl(0, 0%, 100%);
     background-color: black;
   }
   a:hover {

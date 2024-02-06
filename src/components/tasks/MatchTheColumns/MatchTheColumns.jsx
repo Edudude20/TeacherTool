@@ -1,6 +1,6 @@
-import Button from "../Button";
+import Button from "../../Button/Button";
 import { useFieldArray } from "react-hook-form";
-import Input from "../Input";
+import Input from "../../Input";
 
 const MatchTheColumns = () => {
   //Constants

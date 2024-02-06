@@ -6,12 +6,14 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
 
-import Button from "./Button";
-import Title from "./Title";
-import Slides from "./Slides";
-import Task from "./Task";
-import MatchTheColumns from "./tasks/MatchTheColumns";
-import TaskX from "./tasks/TaskX";
+import Button from "../Button/Button";
+import Title from "../Title/Title";
+import Slides from "../Slides/Slides";
+import Task from "../Tasks/Task";
+import MatchTheColumns from "../Tasks/MatchTheColumns/MatchTheColumns";
+import TaskX from "../Tasks/TaskX";
+
+import styles from "./formStyle.module.css";
 
 const Form = () => {
   const formMethods = useForm({
@@ -45,10 +47,15 @@ const Form = () => {
   const onError = (errors) => console.log("errors:", errors);
   return (
     // use spread operator to pass all the useForm methods to the FormProvider context
+
     <FormProvider {...formMethods}>
+      <p className={styles.info}>
+        Required fields are followed by <span aria-label="required">*</span>
+      </p>
       <form
         onSubmit={(e) => e.preventDefault()}
         noValidate //rely on react-hook-form
+        className={styles.form}
       >
         <Title></Title>
         <Slides></Slides>

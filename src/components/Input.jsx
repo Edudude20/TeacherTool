@@ -26,7 +26,6 @@ CharCounter.propTypes = {
 };
 
 const Input = ({
-  label,
   type,
   id,
   placeholder,

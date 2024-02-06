@@ -6,7 +6,7 @@ import Notification from "./components/Notification";
 import { ShepherdTour, ShepherdTourContext } from "react-shepherd";
 import steps from "./steps";
 
-import Form from "./components/Form";
+import Form from "./components/Form/Form";
 
 const TourButton = () => {
   const tour = useContext(ShepherdTourContext);
@@ -20,7 +20,6 @@ const TourButton = () => {
 
 function App() {
   //#region VARIABLES
-
 
   //TODO
   const buttonConfig = [
@@ -69,28 +68,28 @@ function App() {
   }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
 
   return (
-    <>
-      <ShepherdTour steps={steps} tourOptions={tourOptions}>
-        <header></header>
-        <h1 className="header">EduVerse TeacherTool</h1>
-        <h3>Description of this tool</h3>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel
-          nisl dui. Sed imperdiet vel purus et dictum. Curabitur eu elit risus.
-          In et sapien sit amet justo consequat iaculis. Phasellus in mauris
-          purus. Nunc nec dapibus neque, facilisis egestas mauris. Sed efficitur
-          tortor semper risus mattis tincidunt. Nam a justo consectetur,
-          elementum tellus sit amet, pharetra elit.
-          {/* TODO: fill this uusing penpot */}
-        </p>
-        <TourButton></TourButton>
-        <p>
-          Required fields are followed by <span aria-label="required">*</span>
-        </p>
+    <ShepherdTour steps={steps} tourOptions={tourOptions}>
+      <body>
+        <header>
+          <h1>EduVerse TeacherTool</h1>
+        </header>
+        <div className="intro">
+          <h3>Description of this tool</h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel
+            nisl dui. Sed imperdiet vel purus et dictum. Curabitur eu elit
+            risus. In et sapien sit amet justo consequat iaculis. Phasellus in
+            mauris purus. Nunc nec dapibus neque, facilisis egestas mauris. Sed
+            efficitur tortor semper risus mattis tincidunt. Nam a justo
+            consectetur, elementum tellus sit amet, pharetra elit.
+            {/* TODO: fill this uusing penpot */}
+          </p>
+          <TourButton></TourButton>
+        </div>
         <Form></Form>
         <footer></footer>
-      </ShepherdTour>
-    </>
+      </body>
+    </ShepherdTour>
   );
 }
 

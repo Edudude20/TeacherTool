@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 
+//styling
+import style from './taskStyle.module.css'
+
 const Task = ({ children }) => {
 
   const [selectedTask, setSelectedTask] = useState("match-the-columns");

@@ -44,7 +44,9 @@ const Form = () => {
     formMethods.reset();
     setSubmitted(true);
   };
+
   const onError = (errors) => console.log("errors:", errors);
+
   return (
     // use spread operator to pass all the useForm methods to the FormProvider context
 
@@ -55,7 +57,6 @@ const Form = () => {
       <form
         onSubmit={(e) => e.preventDefault()}
         noValidate //rely on react-hook-form
-        className={styles.form}
       >
         <Title></Title>
         <Slides></Slides>

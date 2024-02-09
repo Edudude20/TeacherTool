@@ -29,7 +29,7 @@ const Slides = () => {
   // console.log(watchResult);
 
   return (
-    <section>
+    <section id="slides">
       <h2>
         Slides <span aria-label="required">*</span>
       </h2>
@@ -38,7 +38,7 @@ const Slides = () => {
         show as slide (similarly to PowerPoint) for the students as they open
         the task.
       </p>
-      <ol>
+      <ol className="task-column">
         {/* Map the items in the array to display */}
         {fields.map((slide, index) => (
           <div key={slide.id}>

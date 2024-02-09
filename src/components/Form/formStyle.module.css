@@ -1,7 +1,8 @@
-.form {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2em;
+form {
+    max-width: 90%;
+    margin: 2em;
+    display: flex;
+    flex-direction: column;
 }
 
 .info {
@@ -15,5 +16,6 @@
 
 .submitButton {
     background-color: aqua;
-    float: right;
+    max-width: 100px;
+
 }

@@ -1,12 +1,13 @@
 import "./App.css";
 //import taskService from "./services/task";
-import { useEffect, useContext } from "react";
-import Notification from "./components/Notification";
+import { useContext } from "react";
 
 import { ShepherdTour, ShepherdTourContext } from "react-shepherd";
 import steps from "./steps";
 
 import Form from "./components/Form/Form";
+import Header from "./components/Header/Header";
+import Intro from "./components/Intro/Intro";
 
 const TourButton = () => {
   const tour = useContext(ShepherdTourContext);
@@ -19,8 +20,6 @@ const TourButton = () => {
 };
 
 function App() {
-  //#region VARIABLES
-
   //TODO
   const buttonConfig = [
     {
@@ -48,48 +47,16 @@ function App() {
   };
   //#endregion
 
-  useEffect(() => {
-    //get all inital task data that are in the database, which should be none by default
-    //console.log("get all effect");
-    //get all the data, then get the options object and set the options useState with setOptions
-    //TODO: ota kommentit pois, kun aiot tehdä backendiä
-    //   taskService
-    //     .getAllOptions() //returns only the response.data
-    //     .then((returnedTask) => {
-    //       console.log(returnedTask);
-    //       if (Array.isArray(returnedTask) && returnedTask.length) {
-    //         setOptions(returnedTask);
-    //       }else{
-    //         console.log("Array is not either an array or is empty, create empty default option");
-    //         setOptions(options.concat(optionObject));
-    //       }
-    //     })
-    //     .catch((error) => console.log("get all effect failed", error)); //Metodilla catch voidaan määritellä ketjun lopussa käsittelijäfunktio, jota kutsutaan, jos mikä tahansa ketjun promiseista epäonnistuu eli menee tilaan rejected
-  }, []); //empty dependency array means this effect will only run after the initial render (expect once in development)
-
   return (
-    <ShepherdTour steps={steps} tourOptions={tourOptions}>
-      <body>
-        <header>
-          <h1>EduVerse TeacherTool</h1>
-        </header>
-        <div className="intro">
-          <h3>Description of this tool</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel
-            nisl dui. Sed imperdiet vel purus et dictum. Curabitur eu elit
-            risus. In et sapien sit amet justo consequat iaculis. Phasellus in
-            mauris purus. Nunc nec dapibus neque, facilisis egestas mauris. Sed
-            efficitur tortor semper risus mattis tincidunt. Nam a justo
-            consectetur, elementum tellus sit amet, pharetra elit.
-            {/* TODO: fill this uusing penpot */}
-          </p>
-          <TourButton></TourButton>
-        </div>
+    <>
+      <ShepherdTour steps={steps} tourOptions={tourOptions}>
+        <Header></Header>
+        <Intro></Intro>
+        <TourButton></TourButton>
         <Form></Form>
         <footer></footer>
-      </body>
-    </ShepherdTour>
+      </ShepherdTour>
+    </>
   );
 }
 

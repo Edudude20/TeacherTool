@@ -13,9 +13,9 @@ const TourButton = () => {
   const tour = useContext(ShepherdTourContext);
 
   return (
-    <button className="button dark" onClick={tour.start}>
-      Start Tour
-    </button>
+    <div className="tour-button center">
+      <button onClick={tour.start}>Start Tour</button>
+    </div>
   );
 };
 
@@ -51,9 +51,14 @@ function App() {
     <>
       <ShepherdTour steps={steps} tourOptions={tourOptions}>
         <Header></Header>
-        <Intro></Intro>
-        <TourButton></TourButton>
-        <Form></Form>
+        <div className="content">
+          <div className="title">
+            <h1>TeacherTool</h1>
+            <TourButton></TourButton>
+          </div>
+          <Intro></Intro>
+          <Form></Form>
+        </div>
         <footer></footer>
       </ShepherdTour>
     </>

@@ -1,6 +1,8 @@
+import style from "./introStyle.module.css";
+
 const Intro = () => {
   return (
-    <div className="intro">
+    <div className={style.intro}>
       <h3>Description of this tool</h3>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel nisl
@@ -10,6 +12,15 @@ const Intro = () => {
         risus mattis tincidunt. Nam a justo consectetur, elementum tellus sit
         amet, pharetra elit.
         {/* TODO: fill this uusing penpot */}
+      </p>
+      <p>
+        Pellentesque tellus nisl, ultrices nec interdum eu, viverra non odio.
+        Fusce ut lectus egestas, vestibulum odio sit amet, efficitur nulla.
+        Morbi in ultrices libero, sed imperdiet dolor. Sed ac lacus leo. Quisque
+        molestie, nulla sit amet sagittis tempus, urna sem tincidunt tellus, sit
+        amet euismod sem odio ac libero. Proin in convallis sem. Duis sed odio
+        odio. Integer faucibus ante elit, eu semper leo egestas vitae. Nullam
+        vel semper leo, eget hendrerit dui.
       </p>
     </div>
   );

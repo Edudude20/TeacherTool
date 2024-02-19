@@ -2,6 +2,8 @@ import Button from "../Button/Button";
 import Input from "../Input";
 import { useFieldArray } from "react-hook-form";
 
+import style from './slidesStyle.module.css'
+
 const Slides = () => {
   const maxSlides = 3;
 
@@ -41,7 +43,7 @@ const Slides = () => {
       <ol className="task-column">
         {/* Map the items in the array to display */}
         {fields.map((slide, index) => (
-          <div key={slide.id}>
+          <li key={slide.id}>
           {/* TODO figure out how label works */}
             <label htmlFor={slide.id}>
               <Input
@@ -61,7 +63,7 @@ const Slides = () => {
                 className="remove-button"
               ></Button>
             </label>
-          </div>
+          </li>
         ))}
       </ol>
       <p>

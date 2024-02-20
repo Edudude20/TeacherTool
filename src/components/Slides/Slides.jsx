@@ -1,5 +1,5 @@
 import Button from "../Button/Button";
-import Input from "../Input";
+import Input from "../Input/Input";
 import { useFieldArray } from "react-hook-form";
 
 import style from './slidesStyle.module.css'

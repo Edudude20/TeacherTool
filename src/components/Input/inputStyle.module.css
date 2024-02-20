@@ -1,0 +1,15 @@
+.validationError {
+    color: hsl(0, 100%, 50%);
+    width: fit-content;
+    margin: 0;
+    
+  }
+  
+  .charCounter {
+    margin-left: auto;
+  }
+
+  .validationContainer {
+    display: flex;
+    justify-content: space-between;
+  }

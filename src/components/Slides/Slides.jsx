@@ -2,16 +2,14 @@ import Button from "../Button/Button";
 import Input from "../Input/Input";
 import { useFieldArray } from "react-hook-form";
 
-import style from './slidesStyle.module.css'
+import style from "./slidesStyle.module.css";
 
 const Slides = () => {
   const maxSlides = 3;
 
   const { fields, append, remove } = useFieldArray({
-    name: "slides"
+    name: "slides",
   });
-
-
 
   const isSlidesDisabled = fields.length >= maxSlides; //deactivate "add slides" button if max limit is reached
 
@@ -40,35 +38,30 @@ const Slides = () => {
         show as slide (similarly to PowerPoint) for the students as they open
         the task.
       </p>
-      <ol className="task-column">
+      <ol>
         {/* Map the items in the array to display */}
         {fields.map((slide, index) => (
-          <li key={slide.id}>
-          {/* TODO figure out how label works */}
-            <label htmlFor={slide.id}>
-              <Input
-                label={"slide"}
-                type={"text"}
-                id={slide.id}
-                name={`slides.${index}.slideValue`}
-                placeholder={
-                  "Example: This task is about the functionalities of HTML form usability..."
-                }
-                validation={slides_validation}
-                multiline={true}
-              ></Input>
-              <Button
-                handleClick={() => remove(index)}
-                label="Remove"
-                className="remove-button"
-              ></Button>
-            </label>
+          <li key={slide.id} className={style.container}>
+            <Input
+              label={"slide"}
+              type={"text"}
+              id={slide.id}
+              name={`slides.${index}.slideValue`}
+              placeholder={
+                "Example: This task is about the functionalities of HTML form usability..."
+              }
+              validation={slides_validation}
+              multiline={true}
+            ></Input>
+            <Button
+              handleClick={() => remove(index)}
+              label="Remove"
+              className="remove-button"
+            ></Button>
           </li>
         ))}
       </ol>
-      <p>
-        Slides {fields.length}/{maxSlides}
-      </p>
+
       {/* Render the disabled button if the value is true (aka. max number is achieved), otherwise render the normal button */}
       {isSlidesDisabled ? (
         <Button
@@ -83,6 +76,9 @@ const Slides = () => {
           className="add-button"
         ></Button>
       )}
+      <p>
+        Slides {fields.length}/{maxSlides}
+      </p>
     </section>
   );
 };

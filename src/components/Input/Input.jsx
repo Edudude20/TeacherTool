@@ -58,7 +58,7 @@ const Input = ({
   };
 
   return (
-    <>
+    <div className={style.container}>
       {multiline ? (
         <textarea
           id={id}
@@ -107,7 +107,7 @@ const Input = ({
           <CharCounter current={charCount} max={maxLength} />
         )}
       </div>
-    </>
+    </div>
   );
 };
 

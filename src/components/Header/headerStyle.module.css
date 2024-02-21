@@ -1,5 +1,5 @@
-header {
-    background-color: #a4dbe6FF;
+.headerContainer {
+    background-color: hsl(46, 100%, 63%);
     color: black;
     position: sticky;
     z-index: 1;
@@ -7,6 +7,6 @@ header {
     padding: 20px;
   }
 
-  header h1{
-    color: rgb(255, 0, 0);
+  .headerContainer h1{
+    color: hsl(0, 0%, 0%);
   }

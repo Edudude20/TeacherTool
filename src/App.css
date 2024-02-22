@@ -32,6 +32,10 @@ textarea {
   padding: 10px;
 }
 
+input:disabled {
+background-color: hsl(0, 0%, 70%);
+}
+
 p {
   margin: 1em 0;
 }
@@ -56,7 +60,7 @@ ol {
   list-style-position: inside; /* Ensure marker position inside the list item */
 }
 
-/* Style for the marker */
+/* Style for the bullet marker */
 li::before {
   content: counter(list-item);
   counter-increment: list-item;

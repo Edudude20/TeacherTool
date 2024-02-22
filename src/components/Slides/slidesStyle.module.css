@@ -2,6 +2,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    position: relative; /* Ensure position context for absolute positioning of pseudo-element */
+    position: relative; /* Ensure position context for absolute positioning of pseudo-element (::before) */
     margin: 1em 0;
 }

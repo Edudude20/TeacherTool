@@ -1,7 +1,7 @@
 import Button from "../../Button/Button";
 import { useFieldArray } from "react-hook-form";
 import Input from "../../Input/Input";
-import style from './mtcStyle.module.css'
+import style from "./mtcStyle.module.css";
 
 const MatchTheColumns = () => {
   //Constants
@@ -45,7 +45,7 @@ const MatchTheColumns = () => {
       <ol>
         {/* Create a list item from every object in the array */}
         {fields.map((option, index) => (
-          <li key={option.id}>
+          <li key={option.id} className={style.container}>
             {option.isFalseMatch ? (
               <>
                 <Input
@@ -66,7 +66,6 @@ const MatchTheColumns = () => {
                   validation={options_validation}
                   multiline={false}
                 ></Input>
-                <p>&rarr;</p>
                 <Input
                   label="draggable definition"
                   type="text"
@@ -97,7 +96,6 @@ const MatchTheColumns = () => {
                   validation={options_validation}
                   multiline={false}
                 ></Input>
-                <p>&rarr;</p>
                 <Input
                   label="draggable definition"
                   type="text"
@@ -117,34 +115,35 @@ const MatchTheColumns = () => {
           </li>
         ))}
       </ol>
+      <div className={style.buttonContainer}>
+        {isOptionsDisabled ? (
+          <Button
+            label="Can't add anymore options"
+            className="add-button-disabled"
+            isDisabled={isOptionsDisabled}
+          ></Button>
+        ) : (
+          <>
+            <Button
+              handleClick={() => append({})} //TODO fill
+              label="Add option"
+              className="add-button"
+            ></Button>
+            <Button
+              handleClick={() =>
+                append({
+                  isFalseMatch: true,
+                })
+              } //TODO fill this too
+              label="Add false match"
+              className="add-button"
+            ></Button>
+          </>
+        )}
+      </div>
       <p>
         Options {fields.length}/{maxOptions}
       </p>
-
-      {isOptionsDisabled ? (
-        <Button
-          label="Can't add anymore options"
-          className="add-button-disabled"
-          isDisabled={isOptionsDisabled}
-        ></Button>
-      ) : (
-        <>
-          <Button
-            handleClick={() => append({})} //TODO fill
-            label="Add option"
-            className="add-button"
-          ></Button>
-          <Button
-            handleClick={() =>
-              append({
-                isFalseMatch: true,
-              })
-            } //TODO fill this too
-            label="Add false match"
-            className="add-button"
-          ></Button>
-        </>
-      )}
     </fieldset>
   );
 };

@@ -1,1 +1,18 @@
+.container {
+    position: relative; /* Ensure position context for absolute positioning of pseudo-element (::before) */
+    padding: 0.5em;
+    border-style: solid none;
+    border-color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1em 0;
+    gap: 1em;
+    background-color: aquamarine;
+}
 
+.buttonContainer {
+    display: flex;
+    gap: 1em;
+    margin: 1em;
+}

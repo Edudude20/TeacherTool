@@ -65,8 +65,6 @@ const Input = ({
           type={type}
           className=""
           placeholder={placeholder}
-          cols={"30"}
-          rows={"10"}
           {...register(`${name}`, validation)}
           onChange={handleInputChange}
           maxLength={maxLength}

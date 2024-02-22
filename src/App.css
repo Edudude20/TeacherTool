@@ -67,7 +67,9 @@ li::before {
 }
 
 .content {
-  margin: 40px 15em;
+  max-width: 1280px;
+  width: 70%;
+  margin: 40px auto;
 }
 
 .center {

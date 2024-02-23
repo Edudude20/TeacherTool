@@ -1,9 +1,14 @@
-import style from './headerStyle.module.css';
+import LanguageSelector from "../Language/LanguageSelector";
+import style from "./headerStyle.module.css";
 
 const Header = () => {
   return (
     <header className={style.headerContainer}>
-      <h1>EduVerse TeacherTool</h1>
+      <div>
+        <h1>AIIS POLIS</h1>
+        <h2>(Peer-to-peer Online Learning and Innovation System)</h2>
+      </div>
+      <LanguageSelector></LanguageSelector>
     </header>
   );
 };

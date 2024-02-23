@@ -1,7 +1,17 @@
 .container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: relative; /* Ensure position context for absolute positioning of pseudo-element (::before) */
-    margin: 1em 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative; /* Ensure position context for absolute positioning of pseudo-element (::before) */
+  margin: 1em 0;
+}
+
+/* Style for the bullet marker */
+.container::before {
+  content: counter(list-item);
+  counter-increment: list-item;
+  margin-right: 0.5em;
+  font-size: 2em;
+  position: absolute;
+  left: -1em;
 }

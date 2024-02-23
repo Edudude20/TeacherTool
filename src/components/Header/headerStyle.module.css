@@ -5,8 +5,12 @@
     z-index: 1;
     top: 0;
     padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 4px;
   }
 
-  .headerContainer h1{
+  .headerContainer h1 {
     color: hsl(0, 0%, 0%);
   }

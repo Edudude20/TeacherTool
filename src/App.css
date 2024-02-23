@@ -4,12 +4,18 @@
   padding: 0;
 }
 
+/* make forms' appearance consistent */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+}
+
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
   padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
   background-color: hsl(46, 100%, 63%);
   cursor: pointer;
   transition: border-color 0.25s;
@@ -60,14 +66,15 @@ ol {
   list-style-position: inside; /* Ensure marker position inside the list item */
 }
 
-/* Style for the bullet marker */
-li::before {
-  content: counter(list-item);
-  counter-increment: list-item;
-  margin-right: 0.5em;
+fieldset {
+  border-style: double none none none;
+  border-width: thick;
+  border-color: black;
+}
+
+legend {
+  text-align: center;
   font-size: 2em;
-  position: absolute;
-  left: -1em;
 }
 
 .content {
@@ -100,14 +107,13 @@ li::before {
 #title {
   width: 100%;
 }
-/* make forms' appearance consistent */
-button,
-input,
-select,
-textarea {
-  font-family: inherit;
-  font-size: 100%;
+
+.shepherd-content {
+  background-color: rgba(102, 110, 255, 0.872);
+  border: solid 5px black;
+  border-radius: 5px;
 }
+
 
 /* dark theme preference
 @media (prefers-color-scheme: dark) {

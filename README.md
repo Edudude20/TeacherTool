@@ -8,13 +8,16 @@ Acronyms by pi.ai:
  + CLASS (Collaborative Learning and Sharing System)
  + POPS (Platform for Online Peer-to-peer Sharing)
  + COLIVE (Collaborative Learning and Innovation in Virtual Environment)
- + EXCEL (Exciting Collaborative E-learning)
+ + EXCEL (Exciting Collaborative E-learning) !might be copyrighted!
  + CECIL (Collaborative Education Community for Innovative Learning)
 
  My Own:
  + CESLE (Collaborative Education and Learning Environment)
  + PESCL (Platform for Education and Social Collaborative Learning)
- (Collaborative Learning) CL
+ + CLAPS (Collaborative Learning and Peer-to-peer System)
+ + POTS (Peer-to-peer Online Teaching System)
+ + POLIS (Peer-to-peer Online Learning and Innovation System)
+ + COCS (Collaborative Online Community System)
 
 
  Eetu Nummelin

@@ -18,18 +18,16 @@
 export default [
   {
     id: "intro-step",
-    attachTo: { element: ".header", on: "bottom" },
+    attachTo: { element: ".title", on: "bottom" },
     scrollTo: true,
     cancelIcon: { enabled: true },
     title: "Intro!",
     text: [
       `
-        <p>
       Shepherd is a JavaScript library for guiding users through your app.
       It uses <a href="https://popper.js.org/">Popper.js</a>,
       another open source library, to render dialogs for each tour "step".
-      </p>
-        `,
+      `,
     ],
   },
 ];

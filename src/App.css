@@ -108,27 +108,11 @@ legend {
   width: 100%;
 }
 
-.shepherd-content {
+/* .shepherd-content {
   background-color: rgba(102, 110, 255, 0.872);
   border: solid 5px black;
   border-radius: 5px;
-}
-
-
-/* dark theme preference
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: hsl(0, 0%, 100%);
-    background-color: black;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-*/
+} */
 
 /* Old code from initialization
 

@@ -4,6 +4,7 @@ import { useContext } from "react";
 
 import { ShepherdTour, ShepherdTourContext } from "react-shepherd";
 import steps from "./steps";
+import 'shepherd.js/dist/css/shepherd.css'
 
 import Form from "./components/Form/Form";
 import Header from "./components/Header/Header";
@@ -43,6 +44,7 @@ function App() {
       },
       buttons: buttonConfig,
     },
+    scrollTo: true,
     useModalOverlay: true,
   };
   //#endregion

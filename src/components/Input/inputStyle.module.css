@@ -1,21 +1,19 @@
 .validationError {
-    color: hsl(0, 100%, 50%);
-    width: fit-content;
-    margin: 0;
-    
-  }
-  
-  .charCounter {
-    margin-left: auto;
-  }
+  color: hsl(0, 100%, 50%);
+  margin: 0.1em;
+}
 
-  .validationContainer {
-    display: flex;
-    justify-content: space-between;
-  }
+.charCounter {
+  margin-left: auto;
+}
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    flex: auto;
-  }
+.validationContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+}

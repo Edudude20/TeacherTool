@@ -39,7 +39,7 @@ textarea {
 }
 
 input:disabled {
-background-color: hsl(0, 0%, 70%);
+  background-color: hsl(0, 0%, 70%);
 }
 
 p {
@@ -102,6 +102,15 @@ legend {
 
 .remove-button {
   margin: 1em;
+}
+
+.shepherd-header {
+  background-color: hsl(46, 100%, 63%) !important;
+}
+
+.shepherd-button {
+  background-color: hsl(46, 100%, 63%) !important;
+  color: black !important;
 }
 
 #title {

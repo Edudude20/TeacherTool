@@ -2,7 +2,7 @@ import style from "./introStyle.module.css";
 
 const Intro = () => {
   return (
-    <div className={style.intro}>
+    <div className={`${style.intro} step-2`}>
       <h3>Description of this tool</h3>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel nisl

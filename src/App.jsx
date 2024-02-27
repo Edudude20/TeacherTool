@@ -21,30 +21,14 @@ const TourButton = () => {
 };
 
 function App() {
-  //TODO
-  const buttonConfig = [
-    {
-      classes: "shepherd-button-primary",
-      text: "Back",
-      type: "back",
-    },
-    {
-      classes: "shepherd-button-primary",
-      text: "Next",
-      type: "next",
-    },
-    // Objects for our Tour 'Next' and 'Previous' buttons
-  ];
-
   const tourOptions = {
     // The defaultStepOptions option allows you to specify any options which should be applied to all this tour's steps by default.
     defaultStepOptions: {
       cancelIcon: {
         enabled: true,
       },
-      buttons: buttonConfig,
+      scrollTo:{behavior: 'smooth', block: 'center'},
     },
-    scrollTo: true,
     useModalOverlay: true,
   };
   //#endregion

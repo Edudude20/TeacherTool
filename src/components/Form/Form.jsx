@@ -51,7 +51,7 @@ const Form = () => {
     // use spread operator to pass all the useForm methods to the FormProvider context
 
     <FormProvider {...formMethods}>
-      <p className={styles.info}>
+      <p className={`${styles.info} step-3`}>
         Required fields are followed by <span aria-label="required">*</span>
       </p>
       <form

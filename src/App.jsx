@@ -14,7 +14,7 @@ const TourButton = () => {
   const tour = useContext(ShepherdTourContext);
 
   return (
-    <div className="tour-button center">
+    <div className="tour-button step-1">
       <button onClick={tour.start}>Start Tour</button>
     </div>
   );

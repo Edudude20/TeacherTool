@@ -4,7 +4,7 @@ import style from "./titleStyle.module.css";
 
 const Title = () => {
   return (
-    <section>
+    <section className="step-4">
       <label htmlFor="title">
         <h2>
           Title <span aria-label="required">*</span>

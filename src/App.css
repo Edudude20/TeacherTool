@@ -95,11 +95,6 @@ legend {
   align-items: center;
 }
 
-.tour-button {
-  display: flex;
-  flex-direction: column;
-}
-
 .remove-button {
   margin: 1em;
 }

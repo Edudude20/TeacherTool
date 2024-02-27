@@ -67,7 +67,7 @@ export default [
     title: "Required fields",
     text: [
       `
-      Please check that you have filled in the required input fields marked with the <b>*</b>.
+      Please check that you have filled in the required input fields marked with an asterisk <b>*</b>.
       `
     ],
   },
@@ -77,7 +77,7 @@ export default [
     buttons: buttonConfig,
     title: "1. Title",
     text: [
-      `<p>Firstly , you need to set the title of the mini task. Notice that all of the input fields, including the title, has a maximum number of characters.</p>
+      `<p>Firstly, you need to set the title of the mini task. Notice that all of the input fields, including the title, has a maximum number of characters.</p>
       <p>As mentioned before, input fields with * sign need to be filled to be able to send the task to the learning environment.</p>`
     ],
   },

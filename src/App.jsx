@@ -15,7 +15,7 @@ const TourButton = () => {
 
   return (
     <div className="tour-button step-1">
-      <button onClick={tour.start}>Start Tour</button>
+      <button onClick={tour.start}>Start Step-by-Step Walktrough</button>
     </div>
   );
 };

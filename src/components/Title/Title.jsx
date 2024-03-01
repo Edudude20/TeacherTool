@@ -7,7 +7,7 @@ const Title = () => {
     <section className="step-4">
       <label htmlFor="title">
         <h2>
-          Title <span aria-label="required">*</span>
+          Task Title <span aria-label="required">*</span>
         </h2>
       </label>
       <p>

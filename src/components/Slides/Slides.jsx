@@ -31,7 +31,7 @@ const Slides = () => {
   return (
     <section id="slides">
       <h2>
-        Slides <span aria-label="required">*</span>
+        Task Instruction Slides <span aria-label="required">*</span>
       </h2>
       <p>
         Please write the description of the task for the students. These will

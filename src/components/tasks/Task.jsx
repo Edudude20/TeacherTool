@@ -32,7 +32,7 @@ const Task = ({ children }) => {
   return (
     <section>
       <h2>
-        Task settings <span aria-label="required">*</span>
+        Minigame creation <span aria-label="required">*</span>
       </h2>
       <p>
         This is the minigame that the students will play to finish the task.

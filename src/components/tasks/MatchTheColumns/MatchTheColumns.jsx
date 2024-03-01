@@ -71,7 +71,7 @@ const MatchTheColumns = () => {
                   type="text"
                   id={`definition${index}`}
                   name={`options.${index}.draggableDefinition`}
-                  placeholder="Draggable definition text here"
+                  placeholder="Definition text for the draggable"
                   validation={definition_validation}
                   multiline={true}
                 ></Input>
@@ -101,7 +101,7 @@ const MatchTheColumns = () => {
                   type="text"
                   id={`definition${index}`}
                   name={`options.${index}.draggableDefinition`}
-                  placeholder="Draggable definition text here"
+                  placeholder="Definition text for the draggable"
                   validation={definition_validation}
                   multiline={true}
                 ></Input>

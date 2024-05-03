@@ -5,6 +5,7 @@
 *-------------------------------------------------------------------*/
 import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
+import taskService from "../../services/tasks";
 
 import Button from "../Button/Button";
 import Title from "../Title/Title";
@@ -14,6 +15,7 @@ import MatchTheColumns from "../Tasks/MatchTheColumns/MatchTheColumns";
 import TaskX from "../Tasks/TaskX";
 
 import styles from "./formStyle.module.css";
+
 
 const Form = () => {
   const formMethods = useForm({
@@ -32,7 +34,7 @@ const Form = () => {
     },
   });
 
-  //   console.log(formMethods.watch("title")) // watch input value by passing the name of it
+  console.log(formMethods.watch("title")) // watch input value by passing the name of it
 
   //validation
   const [submitted, setSubmitted] = useState(false);
@@ -41,6 +43,7 @@ const Form = () => {
   const onSubmit = (data) => {
     console.log("submit button clicked");
     console.log("data:", data);
+    taskService.createTask(data)
     formMethods.reset();
     setSubmitted(true);
   };

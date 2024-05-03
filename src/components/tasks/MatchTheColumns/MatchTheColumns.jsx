@@ -35,10 +35,6 @@ const MatchTheColumns = () => {
     },
   };
 
-  // if you want to control your fields with watch
-  // const watchResult = watch("test");
-  // console.log(watchResult);
-
   return (
     <fieldset>
       <legend>Match-The-Columns</legend>
